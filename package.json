@@ -4,6 +4,7 @@
   "description": "Dorm Automation Kit",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon -i data",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,9 +18,11 @@
   },
   "homepage": "https://github.com/jpoles1/dak#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
-    "express-dot-engine": "^1.0.7",
+    "express-handlebars": "^3.0.0",
+    "hbs": "^4.0.1",
     "nedb": "^1.8.0",
     "serialport": "^4.0.3"
   }
