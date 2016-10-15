@@ -18,6 +18,11 @@ volatile boolean  PIRchanged = false;
 volatile long unsigned int PIRchangeStamp = 0;
 const long unsigned int delayNoise = 1000;
 
+//setup photoresistor
+#define PHOTO_PIN0 0
+#define PHOTO_PIN1 1
+#define AVERAGE(x,y) (((float)x + (float)y) / 2.0)
+
 IRsend irsend;
 RCSwitch mySwitch = RCSwitch();
 
@@ -25,6 +30,10 @@ void setup()
 {
   Serial.begin(9600);
 
+  //setup photoresistor pins
+  pinMode(PHOTO_PIN1, INPUT);
+  pinMode(PHOTO_PIN0, INPUT);
+  
   //Calibrate PIR sensor
   pinMode(PIR_PIN, INPUT);
   digitalWrite(PIR_PIN, HIGH);
@@ -52,6 +61,8 @@ void loop()
     String resp = "";
     resp = resp + "PIR:" + isMovementPIR();
     resp = resp + checkTemp();
+    resp = resp + "photo:" + String(AVERAGE(analogRead(PHOTO_PIN0), analogRead(PHOTO_PIN1))) + ";";
+    resp = resp + '\n';
     if(resp != "")
     {
       Serial.println(resp);
