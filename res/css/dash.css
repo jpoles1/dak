@@ -1,5 +1,6 @@
 body{
   background-color: #333;
+  color: #ccc;
 }
 .dashbox{
   color: #ccc;
@@ -9,4 +10,16 @@ body{
 .dashplot{
   max-width: 800px;
   min-height: 400px;
+}
+.darkwell {
+  margin-top: 15px;
+  width: 500px;
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #333;
+  border: 1px solid #232323;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 10px rgba(0,0,0,.4);
+  color: #FFF;
 }

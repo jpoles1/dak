@@ -1,4 +1,7 @@
 var dakSensors = {};
+global.sensor_list = {
+  
+};
 dakSensors.logStatus = function(){
   var numoutlets = dakMonitor.countOutlets();
   sensor_entry = {

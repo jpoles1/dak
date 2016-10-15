@@ -19,6 +19,7 @@ app.use(process.env.BASE_URL, router);
 global.dakSensors = require("./logic/dakSensors")
 global.dakUserLogic = require("./logic/dakUserLogic")
 global.dakActuators = require("./logic/dakActuators")
+dakActuators.loadActuators()
 require("./routers/routers")
 app.listen(process.env.PORT);
 console.log("Listening for HTTPS traffic on port:", process.env.PORT)

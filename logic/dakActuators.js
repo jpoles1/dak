@@ -1,7 +1,8 @@
 var dakActuators = {};
 global.actuator_list = {};
+global.actuator_types = ["433 MHz", "IR"]
 dakActuators.loadActuators = function(){
-  db.find({type: "actuator", "active": 1}, function(err, docs){
+  db.find({type: "actuator", "active": 1}).sort({outlet: 1 }).exec(function(err, docs){
     actuator_list = docs;
   })
 }
@@ -16,6 +17,7 @@ dakActuators.addActuator = function(name, outlet, cb){
       console.log("Failed to add entry to DB")
       return 1;
     }
+    dakActuators.loadActuators()
     cb();
   })
 }
