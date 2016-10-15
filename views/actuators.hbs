@@ -7,14 +7,17 @@
       <div class="darkwell darkwell-bordered">
         {{{this.name}}} via {{../signal_type}} - {{signal}}
         <br><br>
-        <a class="btn btn-xs btn-danger">Delete Command</a>
+        <button class="btn btn-xs btn-danger" href="{{BASE_URL}}config/deleteActuatorCommand?id={{_id}}">Delete Command</button>
       </div>
     {{/each}}
     <div class="darkwell darkwell-bordered">
-      <h4>Add a New Command</h4>
-      Add command <input type="text" v-model="name" placeholder="named..."> via {{signal_type}}: <input type="text" v-model="signal">
-      <br><br>
-      <a class="btn btn-xs btn-primary">Add Command</a>
+      <form class="actuatorCommand-creator" action="#">
+        ${form_configure}
+        <h4>Add a New Command</h4>
+        Add command <input type="text" v-model="name" placeholder="named..."> via {{signal_type}}: <input type="text" v-model="signal">
+        <br><br>
+        <button type="submit" class="btn btn-xs btn-primary disabled {{name}}">Add Command</button>
+      </form>
     </div>
   </div>
   <hr>
@@ -34,3 +37,4 @@
   </form>
 </div>
 <script src="{{BASE_URL}}res/js/addActuator.js"></script>
+<script src="{{BASE_URL}}res/js/addActuatorCommand.js"></script>

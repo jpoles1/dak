@@ -25,7 +25,7 @@ $(function(){
         }
         return (this.validation_error == "");
       },
-      form_configure(formdata){
+      form_configure(){
         //Used to update this computed value with each form change.
         this.valid_form
       }
@@ -44,7 +44,6 @@ $(function(){
       }
     }
   })
-  console.log("TEST")
   $("#actuator-creator button").click(actuator_creator.submit_form)
   $("#actuator-creator form").submit(actuator_creator.submit_form)
 })
