@@ -4,12 +4,18 @@
     <h2>{{name}} - {{signal_type}}:</h2>
     <h3><i>Command List:</i></h3><br>
     {{#each commands}}
-      <div class="darkwell" style="border: 1px solid #bbb; padding: 15px; width: 70%;">
+      <div class="darkwell darkwell-bordered">
         {{{this.name}}} via {{../signal_type}} - {{signal}}
         <br><br>
         <a class="btn btn-xs btn-danger">Delete Command</a>
       </div>
     {{/each}}
+    <div class="darkwell darkwell-bordered">
+      <h4>Add a New Command</h4>
+      Add command <input type="text" v-model="name" placeholder="named..."> via {{signal_type}} - <input type="text" v-model="signal">
+      <br><br>
+      <a class="btn btn-xs btn-primary">Add Command</a>
+    </div>
   </div>
   <hr>
 {{/each}}
