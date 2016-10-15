@@ -1,42 +1,47 @@
 <h3>Sensors</h3>
-<ul>
+<ul class="darkwell darkwell-bordered" style="list-style: none">
   <li>Temperature:</li>
   <li>Humidity:</li>
   <li>Brightness:</li>
   <li>Motion:</li>
 </ul>
-<h3>Actuators</h3>
-<ul>
-  {{#each actuator_list}}
-    <div class="darkwell darkwell-bordered">
-      <h4><i>{{name}}</i></h4>
-      <b>Current Status</b>
-      <ul>
-        <li>Powered: {{state.on}}</li>
-        <li>Override: {{state.override}}</li>
-        <li>Last Command: {{last_command}}</li>
-      </ul>
-      <br><br>
-      <form class="btn-group override-btns form-inline" data-toggle="buttons" data-actuator="{{_id}}">
-        <div class="form-group">
-          <button class="btn btn-primary" value="off">Auto</button>
-          <button class="btn btn-danger" value="on">Man. Override</button>
-          <span class="override_command" {{#unless state.override}} style="display: none;"{{/unless}}>
-            <select class="form-control">
-              {{#each commands}}
-                <option>{{name}}</option>
-              {{/each}}
-            </select>
-          </span>
-          <button class="btn btn-info" type="submit" style="display: none;">Save</button>
-        </div>
-      </form>
-    </div>
-  {{/each}}
-</ul>
+<h3><u id="actuator-container-trigger">Actuators</u></h3>
+<div id="actuator-container" style="display: none;">
+  <div style="display: flex; margin: auto; flex-direction: row; min-width: 250px; justify-content: space-around; flex-wrap: wrap; width: 36%;">
+    {{#each actuator_list}}
+      <div class="darkwell darkwell-bordered" style="flex-grow: 1">
+        <h4><i>{{name}}</i></h4>
+        <b>Current Status</b>
+        <ul>
+          <li>Powered: {{state.on}}</li>
+          <li>Override: {{state.override}}</li>
+          <li>Last Command: {{last_command}}</li>
+        </ul>
+        <br><br>
+        <form class="btn-group override-btns form-inline" data-toggle="buttons" data-actuator="{{_id}}">
+          <div class="form-group">
+            <button class="btn btn-primary" value="off">Auto</button>
+            <button class="btn btn-danger" value="on">Man. Override</button>
+            <span class="override_command" {{#unless state.override}} style="display: none;"{{/unless}}>
+              <select class="form-control">
+                {{#each commands}}
+                  <option>{{name}}</option>
+                {{/each}}
+              </select>
+            </span>
+            <button class="btn btn-info" type="submit" style="display: none;">Save</button>
+          </div>
+        </form>
+      </div>
+    {{/each}}
+  </div>
+</div>
 <h3>Rulebook</h3>
 <script>
 $(function(){
+  $("#actuator-container-trigger").click(function(){
+    $("#actuator-container").toggle();
+  })
   $(".override-btns button, .override_command").click(function(){
     var value = $(this).attr("value")
     var actuator = $(this).parent().attr("data-actuator")
