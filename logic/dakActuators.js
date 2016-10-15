@@ -1,19 +1,25 @@
-var dakActuator = {};
+var dakActuators = {};
 global.actuator_list = {};
-dakActuator.loadActuators = function(){
+dakActuators.loadActuators = function(){
   db.find({type: "actuator", "active": 1}, function(err, docs){
     actuator_list = docs;
   })
 }
-dakActuator.addActuator = function(id, name, outlet){
+dakActuators.addActuator = function(name, outlet, cb){
   actuator_entry = {
     "type": "actuator",
-    id, name, outlet,
+    name, outlet,
     "active": 1
   }
-  db.insert(actuator_entry)
+  db.insert(actuator_entry, (err) => {
+    if(err){
+      console.log("Failed to add entry to DB")
+      return 1;
+    }
+    cb();
+  })
 }
-dakActuator.removeActuator = function(id){
+dakActuators.removeActuator = function(id){
   db.update({type: "actuator", "id": id}, {active: 0})
 }
-module.exports = dakActuator;
+module.exports = dakActuators;

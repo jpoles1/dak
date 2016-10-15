@@ -16,9 +16,9 @@ app.set('view engine', 'handlebars');
 global.router = express.Router();
 app.use('/res', express.static('res'));
 app.use(process.env.BASE_URL, router);
-var dakSensors = require("./logic/dakSensors")
-var dakUserLogic = require("./logic/dakUserLogic")
-var dakActuators = require("./logic/dakActuators")
+global.dakSensors = require("./logic/dakSensors")
+global.dakUserLogic = require("./logic/dakUserLogic")
+global.dakActuators = require("./logic/dakActuators")
 require("./routers/routers")
 app.listen(process.env.PORT);
 console.log("Listening for HTTPS traffic on port:", process.env.PORT)

@@ -5,13 +5,17 @@
 </ul>
 <h3>Actuators</h3>
 <ul>
-  {{#each actuators}}
+  {{#each actuator_list}}
     <li>{{id}} - {{name}}: value</li>
   {{/each}}
-  Add actuator:
   <form class="form-inline" action="config/add_actuator" method="POST">
-    <input type="text" name="name">
-    <button type="submit" class="btn btn-primary">Add Actuator</button>
+    Add actuator <input type="text" name="name" {{#if no_outlets}}disabled{{/if}}>
+    on Outlet <select class="form-control" {{#if no_outlets}}disabled{{/if}}>
+      {{#each available_outlets}}
+        <li>{{this}}</li>
+      {{/each}}
+    </select>
+    <button type="submit" class="btn btn-primary" {{#if no_outlets}}disabled{{/if}}>Add Actuator</button>
   </form>
 </ul>
 <h3>Rulebook</h3>
