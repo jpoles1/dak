@@ -6,7 +6,7 @@ serialPort.list(function (err, ports) {
     var portName = port.comName.split("/")[2].slice(0, -1);
     return portName == "ttyUSB"
   })
-  if(typeof myPort === 'undefined' && devMode == 0){
+  if(typeof myPort === 'undefined' && process.env.devMode != 1){
     throw new Error("Could not connect to Arduino peripheral.");
   }
   else{

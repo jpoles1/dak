@@ -5,22 +5,20 @@ global.actuator_commands = [];
 dakActuators.loadActuators = function(){
   db.config.find({type: "actuator", active: 1}).sort({outlet: 1 }).exec(function(err, docs){
     actuator_list = docs;
-    console.log(actuator_list)
     dakActuators.loadActuatorCommands()
   })
 }
 dakActuators.loadActuatorCommands = function(){
-  console.log(actuator_list.map((x) => x._id))
   db.config.find({type: "actuator_command", active: 1, actuator: {$in: actuator_list.map((x) => x._id)}}).sort({outlet: 1 }).exec(function(err, docs){
+    command_list = actuator_list.reduce((list, x) => {
+      list[x._id] = x;
+      list[x._id].commands = [];
+      return list;
+    }, {});
     actuator_commands = docs.reduce((command_list, command) => {
-      if(!command_list[command.actuator]){
-        command_list[command.actuator] = actuator_list.filter((x) => x._id = command.actuator)[0]
-        command_list[command.actuator].commands = [];
-      }
       command_list[command.actuator].commands.push(command)
       return command_list
-    }, {})
-    console.log(actuator_commands)
+    }, command_list)
   })
 }
 dakActuators.addActuator = function(name, signal_type, cb){

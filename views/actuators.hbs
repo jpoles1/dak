@@ -2,7 +2,7 @@
 {{#each actuator_commands}}
   <div>
     <h2>{{name}} - {{signal_type}}:</h2>
-    <h3><i>Command List:</i></h3><br>
+    <h3><i>Command List:</i></h3>
     {{#each commands}}
       <div class="darkwell darkwell-bordered">
         {{{this.name}}} via {{../signal_type}} - {{signal}}
@@ -12,10 +12,25 @@
     {{/each}}
     <div class="darkwell darkwell-bordered">
       <h4>Add a New Command</h4>
-      Add command <input type="text" v-model="name" placeholder="named..."> via {{signal_type}} - <input type="text" v-model="signal">
+      Add command <input type="text" v-model="name" placeholder="named..."> via {{signal_type}}: <input type="text" v-model="signal">
       <br><br>
       <a class="btn btn-xs btn-primary">Add Command</a>
     </div>
   </div>
   <hr>
 {{/each}}
+<h2>Add an Actuator:</h2>
+<div id="actuator-creator">
+  ${form_configure}
+  <form class="form-inline darkwell darkwell-bordered" action="#">
+    Add actuator <input type="text" v-model="name" placeholder="named..." style="color: black">
+    of Type <select class="form-control" v-model="signal_type">
+      {{#each actuator_types}}
+        <option>{{this}}</option>
+      {{/each}}
+    </select>
+    <br>
+    <button type="submit" class="btn btn-primary" disabled>Add Actuator</button>
+  </form>
+</div>
+<script src="{{BASE_URL}}res/js/addActuator.js"></script>
