@@ -12,15 +12,14 @@
     <!-- d3 import (slighty out of date version for n3)-->
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <!-- nv.d3 import -->
-    <link href="[[=BASE_URL]]/css/nv.d3.css" rel="stylesheet">
-    <script src="[[=BASE_URL]]/js/nv.d3.min.js"></script>
+    <link href="{{BASE_URL}}css/nv.d3.css" rel="stylesheet">
+    <script src="{{BASE_URL}}js/nv.d3.min.js"></script>
     <!-- custom styles -->
-    <link href="[[=BASE_URL]]/css/dash.css" rel="stylesheet">
+    <link href="{{BASE_URL}}css/dash.css" rel="stylesheet">
   </head>
   <body>
     <div class="container-fluid">
-      [[= layout.section]]
+      {{{body}}}
     </div>
  </body>
- [[= layout.scripts]]
 </html>
