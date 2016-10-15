@@ -6,6 +6,8 @@ var exphbs  = require('express-handlebars');
 var bodyParser = require('body-parser');
 //Create express server
 var app = express()
+app.listen(process.env.PORT);
+console.log("Listening for HTTP traffic on port:", process.env.PORT)
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 //Sets the template engine to be handlebars
@@ -19,8 +21,5 @@ app.use(process.env.BASE_URL, router);
 global.dakSensors = require("./logic/dakSensors")
 global.dakUserLogic = require("./logic/dakUserLogic")
 global.dakActuators = require("./logic/dakActuators")
-dakActuators.loadActuators()
 require("./routers/routers")
-app.listen(process.env.PORT);
-console.log("Listening for HTTP traffic on port:", process.env.PORT)
 module.exports = app;

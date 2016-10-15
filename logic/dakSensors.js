@@ -1,6 +1,6 @@
 var dakSensors = {};
 global.sensor_list = {
-  
+
 };
 dakSensors.logStatus = function(){
   var numoutlets = dakMonitor.countOutlets();
@@ -13,7 +13,7 @@ dakSensors.logStatus = function(){
     "humid": room_status["humid"],
     "outlets_on": numoutlets
   }
-  db.insert(sensor_entry, (err) => {
+  db.activity.insert(sensor_entry, (err) => {
     if(err){
       console.log("Failed to add entry to DB")
       return 1;

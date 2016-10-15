@@ -1,9 +1,15 @@
-<h2>Actuator Setup Panel</h2>
-<ul>
-  {{#each actuator_list}}
-    <li>
-      <h2>{{name}} - {{signal_type}}:</h2>
-      More stuff here<br>
-    </li>
-  {{/each}}
-</ul>
+<h1 style="text-align: center">Actuator Setup Panel</h1>
+{{#each actuator_commands}}
+  <div>
+    <h2>{{name}} - {{signal_type}}:</h2>
+    <h3><i>Command List:</i></h3><br>
+    {{#each commands}}
+      <div class="darkwell" style="border: 1px solid #bbb; padding: 15px; width: 70%;">
+        {{{this.name}}} via {{../signal_type}} - {{signal}}
+        <br><br>
+        <a class="btn btn-xs btn-danger">Delete Command</a>
+      </div>
+    {{/each}}
+  </div>
+  <hr>
+{{/each}}
