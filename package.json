@@ -1,0 +1,26 @@
+{
+  "name": "dak",
+  "version": "1.0.0",
+  "description": "Dorm Automation Kit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpoles1/dak.git"
+  },
+  "author": "Jordan Poles and Greg Harper",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jpoles1/dak/issues"
+  },
+  "homepage": "https://github.com/jpoles1/dak#readme",
+  "dependencies": {
+    "dotenv": "^2.0.0",
+    "express": "^4.14.0",
+    "express-dot-engine": "^1.0.7",
+    "nedb": "^1.8.0",
+    "serialport": "^4.0.3"
+  }
+}
