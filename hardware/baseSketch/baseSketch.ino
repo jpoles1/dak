@@ -65,4 +65,6 @@ String checkTemp()
   {
      resp = resp + "temp:" + String(int(DHT11.getFahrenheit())) + ";humid:" + String(int(DHT11.getHumidity()))+ ";";
   }
+
+  return resp;
 }
