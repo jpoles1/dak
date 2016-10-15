@@ -22,5 +22,5 @@ global.dakActuators = require("./logic/dakActuators")
 dakActuators.loadActuators()
 require("./routers/routers")
 app.listen(process.env.PORT);
-console.log("Listening for HTTPS traffic on port:", process.env.PORT)
+console.log("Listening for HTTP traffic on port:", process.env.PORT)
 module.exports = app;

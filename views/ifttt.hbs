@@ -12,7 +12,7 @@
     ${form_configure}
     <form class="form-inline darkwell" action="#">
       Add actuator <input type="text" v-model="name" placeholder="named..." style="color: black">
-      of Type <select class="form-control" v-model="signal">
+      of Type <select class="form-control" v-model="signal_type">
         {{#each actuator_types}}
           <option>{{this}}</option>
         {{/each}}
@@ -38,7 +38,7 @@ $(function(){
     el: "#actuator-creator",
     data: {
       name: "",
-      signal: "",
+      signal_type: "",
       outlet: undefined,
       validation_error: ""
     },
@@ -48,7 +48,7 @@ $(function(){
         if(this.name.length < 1){
           this.validation_error += "Please enter a valid name. "
         }
-        if(this.signal == ""){
+        if(this.signal_type == ""){
           this.validation_error += "Please select an actuator type. "
         }
         if(this.validation_error == ""){
@@ -62,7 +62,7 @@ $(function(){
       form_configure(formdata){
         this.valid_form
         console.log(formdata, this.type)
-        if(this.signal != "433 MHz"){
+        if(this.signal_type != "433 MHz"){
           $("#outlet-config").hide();
         }
         else{
@@ -75,7 +75,7 @@ $(function(){
         if(this.valid_form){
           $.post("config/add_actuator", {
             name: this.name,
-            signal: this.signal
+            signal_type: this.signal_type
           }).done(function(){
             location.reload()
           })

@@ -13,7 +13,7 @@ router.get("/config/actuators", (req, res) => {
   res.page_data.actuator_list = actuator_list;
   res.page_data.no_outlets = process.env.MAX_OUTLETS <= actuator_list.length;
   console.log(res.page_data)
-  res.render("ifttt.hbs", res.page_data)
+  res.render("actuators.hbs", res.page_data)
 })
 router.post("/config/add_actuator", (req, res) => {
   console.log(req.body)
