@@ -1,12 +1,9 @@
-{"type":"actuator","name":"Outlet 1","signal_type":"433 MHz","active":1,"_id":"RqBEVjhGH144Kfsi"}
-{"type":"actuator","name":"Outlet 2","signal_type":"433 MHz","active":1,"_id":"hZTt5lx4ODHDzqzD"}
-{"type":"actuator","name":"Outlet 3","signal_type":"433 MHz","active":1,"_id":"dE2s0AFaUbfPljde"}
-{"type":"actuator_command","name":"On","actuator":"RqBEVjhGH144Kfsi","signal":"0100000000010101001100110","active":1,"_id":"zckXRpsMtKWvykrC"}
 {"type":"actuator_command","name":"Off","actuator":"RqBEVjhGH144Kfsi","signal":"0100000000010101001111000","active":1,"_id":"RVNzi6E5yorRjudS"}
+{"type":"actuator","name":"Outlet 1","signal_type":"433 MHz","active":1,"_id":"RqBEVjhGH144Kfsi"}
+{"type":"actuator_command","name":"Off","actuator":"hZTt5lx4ODHDzqzD","signal":"0100000000010101110011000","active":1,"_id":"V3BAt3UWb6WQ9ppc"}
 {"type":"actuator_command","name":"On","actuator":"dE2s0AFaUbfPljde","signal":"0100000000010111000000110","active":1,"_id":"cCpZqgjZu0576CDW"}
+{"type":"actuator","name":"Outlet 3","signal_type":"433 MHz","active":1,"_id":"dE2s0AFaUbfPljde"}
+{"type":"actuator","name":"Outlet 2","signal_type":"433 MHz","active":1,"_id":"hZTt5lx4ODHDzqzD"}
 {"type":"actuator_command","name":"Off","actuator":"dE2s0AFaUbfPljde","signal":"0100000000010111000011000","active":1,"_id":"lMpTHZMVGijI0zv7"}
 {"type":"actuator_command","name":"On","actuator":"hZTt5lx4ODHDzqzD","signal":"0100000000010101110000110","active":1,"_id":"qEYnMZmE9Mn8pTH7"}
-{"type":"actuator_command","name":"Off","actuator":"hZTt5lx4ODHDzqzD","signal":"0100000000010101110011000","active":1,"_id":"V3BAt3UWb6WQ9ppc"}
-{"type":"actuator","name":"All Outlets","signal_type":"433 MHz","active":1,"_id":"avFU2oGTvjd0YT6s"}
-{"type":"actuator_command","name":"On","actuator":"avFU2oGTvjd0YT6s","signal":"0100000000110101000000110","active":1,"_id":"64U81BdSFjPmaAeu"}
-{"type":"actuator_command","name":"Off","actuator":"avFU2oGTvjd0YT6s","signal":"0100000000110101000011000","active":1,"_id":"3hVwUnHhywtOsVO0"}
+{"type":"actuator_command","name":"On","actuator":"RqBEVjhGH144Kfsi","signal":"0100000000010101001100110","active":1,"_id":"zckXRpsMtKWvykrC"}

@@ -1,4 +1,6 @@
 $(function(){
+  $(".command_reveal").hide()
+  $(".command_link").click(function(){$(this).siblings(".command_reveal").toggle()})
   $(".actuatorCommand-creator").each(function(i, el){
     var actuatorCommand_creator  = new Vue({
       delimiters: ['${', '}'],

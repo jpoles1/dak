@@ -2,11 +2,55 @@
 <ul>
   <li>Temperature:</li>
   <li>Humidity:</li>
+  <li>Brightness:</li>
+  <li>Motion:</li>
 </ul>
 <h3>Actuators</h3>
 <ul>
   {{#each actuator_list}}
-    <li>{{name}} - {{type}}: value</li>
+    <div class="darkwell darkwell-bordered">
+      <h4><i>{{name}}</i></h4>
+      <b>Current Status</b>
+      <ul>
+        <li>Powered: {{state.on}}</li>
+        <li>Override: {{state.override}}</li>
+        <li>Last Command: {{last_command}}</li>
+      </ul>
+      <br><br>
+      <form class="btn-group override-btns form-inline" data-toggle="buttons" data-actuator="{{_id}}">
+        <div class="form-group">
+          <button class="btn btn-primary" value="off">Auto</button>
+          <button class="btn btn-danger" value="on">Man. Override</button>
+          <span class="override_command" {{#unless state.override}} style="display: none;"{{/unless}}>
+            <select class="form-control">
+              {{#each commands}}
+                <option>{{name}}</option>
+              {{/each}}
+            </select>
+          </span>
+          <button class="btn btn-info" type="submit" style="display: none;">Save</button>
+        </div>
+      </form>
+    </div>
   {{/each}}
 </ul>
 <h3>Rulebook</h3>
+<script>
+$(function(){
+  $(".override-btns button, .override_command").click(function(){
+    var value = $(this).attr("value")
+    var actuator = $(this).parent().attr("data-actuator")
+    console.log(value)
+    if(value == "on"){
+      $(this).siblings(".override_command").show()
+    }
+    if(value == "off"){
+      $(this).siblings(".override_command").hide()
+    }
+    $(this).siblings(".btn-info").show()
+  })
+  $(".btn-info").click(function(){
+    $(this).hide()
+  })
+})
+</script>

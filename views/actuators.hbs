@@ -1,5 +1,5 @@
 <h1 style="text-align: center">Actuator Setup Panel</h1>
-{{#each actuator_commands}}
+{{#each actuator_list}}
   <div>
     <h2>{{name}} - {{signal_type}}:</h2>
     <h3><i>Command List:</i></h3>
@@ -11,11 +11,14 @@
     {{/each}}
     <div class="darkwell darkwell-bordered">
       <form action="/config/add_actuatorCommand" method="POST">
-        <h4>Add a New Command</h4>
-        Add command <input type="text" name="name" placeholder="named..."> via {{signal_type}}: <input type="text" name="signal">
-        <input type="hidden" name="actuator" value="{{_id}}">
-        <br><br>
-        <button type="submit" class="btn btn-xs btn-primary">Add Command</button>
+        <h3 class="command_link" style="text-decoration: underline;">Add a New Command</h3>
+        <div class="command_reveal">
+          Add command* <input type="text" name="name" placeholder="named..."> via {{signal_type}}: <input type="text" name="signal">
+          <input type="hidden" name="actuator" value="{{_id}}">
+          <br><br>
+          <button type="submit" class="btn btn-xs btn-primary">Add Command</button><br>
+          <i>*The names "On" and "Off" are reserved for commands which turn devices on and off (for tracking energy consumption).</i>
+        </div>
       </form>
     </div>
   </div>

@@ -2,11 +2,12 @@ router.use((req, res, next) => {
   next();
 })
 router.get("/ifttt", (req, res) => {
+  res.page_data.actuator_list = actuator_list;
   res.render("ifttt.hbs", res.page_data)
 })
 router.get("/config/actuators", (req, res) => {
   res.page_data.actuator_types = Object.keys(actuator_types);
-  res.page_data.actuator_commands = actuator_commands;
+  res.page_data.actuator_list = actuator_list;
   res.render("actuators.hbs", res.page_data)
 })
 router.post("/config/add_actuator", (req, res) => {
