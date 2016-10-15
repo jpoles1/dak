@@ -1,5 +1,5 @@
 var dakActuators = {};
-global.actuator_types = ["433 MHz", "IR"]
+global.actuator_types = {"433 MHz": "433", "IR": "IR", "315 MHz": "315"}
 global.actuator_list = [];
 global.actuator_commands = [];
 dakActuators.loadActuators = function(){
@@ -51,11 +51,17 @@ dakActuators.addActuatorCommand = function(name, actuator, signal, cb){
     cb();
   })
 }
-dakActuators.removeActuator = function(id){
-  db.config.update({type: "actuator", "id": id}, {active: 0})
+dakActuators.deleteActuator = function(id, cb){
+  db.config.update({type: "actuator", "id": id}, {active: 0}, ()=>{
+    dakActuators.loadActuators()
+    cb()
+  })
 }
-dakActuators.removeActuatorCommand = function(id){
-  db.config.update({type: "actuator_command", "id": id}, {active: 0})
+dakActuators.deleteActuatorCommand = function(id, cb){
+  db.config.update({type: "actuator_command", _id: id}, {active: 0}, {}, ()=>{
+    dakActuators.loadActuatorCommands()
+    cb()
+  })
 }
 dakActuators.loadActuators()
 module.exports = dakActuators;
