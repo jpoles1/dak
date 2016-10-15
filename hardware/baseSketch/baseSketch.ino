@@ -31,7 +31,7 @@ void loop() {
   int loopstate, wait_time = 4; //In seconds
   if(loopstate >= wait_time){
     String resp = "";
-    resp = resp + "PIR:" + checkPIR()+";";
+    resp = resp + "PIR:" + checkPIR();
     resp = resp + checkTemp();
     if(resp!=""){
       Serial.println(resp);
