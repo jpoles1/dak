@@ -6,34 +6,54 @@
 // setup for DHT11
 #define DHT_PIN 2
 #define DHT_ISR_NUM 0
-void dht11_wrapper(); // must be declared before the lib initialization
+void dht11_wrapper();
 idDHT11 DHT11(DHT_PIN, DHT_ISR_NUM,dht11_wrapper);
 
 // PIR setup
-#define PIR_PIN 5
+#define PIR_PIN 3
+#define PIR_CAL_TIME 30
+volatile int PIRposs;
+int PIRstatus = HIGH;
+volatile boolean  PIRchanged = false;
+volatile long unsigned int PIRchangeStamp = 0;
+const long unsigned int delayNoise = 1000;
 
 IRsend irsend;
 RCSwitch mySwitch = RCSwitch();
 
-char pirState = -1;
-String serdat = "";
-
-void setup() {
+void setup()
+{
   Serial.begin(9600);
+
+  //Calibrate PIR sensor
   pinMode(PIR_PIN, INPUT);
+  digitalWrite(PIR_PIN, HIGH);
+  Serial.print("Calibrating Motion Sensor");
+  for(int i = 0; i < PIR_CAL_TIME; i++)
+  {
+    Serial.print(".");
+    delay(1000);
+  }
+  Serial.println("done.");
+  attachInterrupt(digitalPinToInterrupt(PIR_PIN), PIR_ISR, CHANGE);
+  
+  //Setup RC transmitter
   mySwitch.enableTransmit(10);
   mySwitch.setPulseLength(140);
   mySwitch.setRepeatTransmit(5);
   Serial.println("ready");
 }
 
-void loop() {
+void loop()
+{
   int loopstate, wait_time = 4; //In seconds
-  if(loopstate >= wait_time){
+  if(loopstate >= wait_time)
+  {
     String resp = "";
-    resp = resp + "PIR:" + checkPIR();
+    resp = resp + "PIR:" + isMovementPIR();
     resp = resp + checkTemp();
-    if(resp!=""){
+    if(resp != "")
+    {
       Serial.println(resp);
     }
     loopstate = 0;
@@ -42,19 +62,37 @@ void loop() {
   delay(1000);
 }
 
-void dht11_wrapper() {
+void dht11_wrapper()
+{
   DHT11.isrCallback();
 }
 
-String checkPIR(){
-  int pir_val = digitalRead(PIR_PIN);
-  String resp = "";
-  if(pir_val != pirState)
-  {
-    resp = "PIR:" + String(pir_val) + ";";
+void PIR_ISR()
+{
+  int readPIR = digitalRead(PIR_PIN);
+  if (PIRstatus != readPIR)
+  {                       
+    PIRchanged = true;
+    PIRposs = readPIR;
+    PIRchangeStamp = millis();
   }
-  pirState = pir_val;
-  return resp;
+  else
+  { 
+    PIRchanged = false;
+  }
+}
+
+String isMovementPIR()
+{
+  if (PIRchanged == true)
+  {
+    if ((millis() - PIRchangeStamp) > delayNoise)
+    {
+      PIRstatus = PIRposs ;
+      PIRchanged = false;
+    }
+  }
+  return String(PIRstatus == LOW);                                    
 }
 
 String checkTemp()
