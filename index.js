@@ -1,7 +1,7 @@
 require('dotenv').config();
 if(!process.env.PORT) throw new Error("Need a valid server port.");
 global.db = require("./logic/dakDB");
-var express = require("express");
+global.express = require("express");
 var exphbs  = require('express-handlebars');
 var bodyParser = require('body-parser');
 //Create express server
@@ -16,10 +16,12 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 //Serves all files in the res folder as static resources
 global.router = express.Router();
+global.api_router = express.Router();
 app.use('/res', express.static('res'));
 app.use(process.env.BASE_URL, router);
 global.dakSensors = require("./logic/dakSensors")
 global.dakUserLogic = require("./logic/dakUserLogic")
+global.dakAPI = require("./logic/dakAPI")
 global.dakActuators = require("./logic/dakActuators")
 require("./routers/routers")
 module.exports = app;
