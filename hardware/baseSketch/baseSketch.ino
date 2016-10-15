@@ -25,10 +25,11 @@ const long unsigned int delayNoise = 1000;
 
 IRsend irsend;
 RCSwitch mySwitch = RCSwitch();
+String serData;
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(38400);
 
   //setup photoresistor pins
   pinMode(PHOTO_PIN1, INPUT);
@@ -71,6 +72,16 @@ void loop()
   }
   loopstate ++;
   delay(1000);
+}
+
+void serialEvent() 
+{
+  while(Serial.available()) 
+  {
+    serData = Serial.readStringUntil('\n');
+    sendIR(serData);
+    delay(50);
+  }
 }
 
 void dht11_wrapper()
@@ -116,4 +127,36 @@ String checkTemp()
   }
 
   return resp;
+}
+
+void sendIR(String data){
+    while(data.indexOf(';') != -1)
+    {
+      String command = data.substring(0, data.indexOf(';'));
+      int firstColon = command.indexOf(':');
+      String type = command.substring(0, firstColon);
+      String rest = command.substring(firstColon+1);
+      if(type == "IR")
+      {
+        int retries = rest.substring(0, rest.indexOf(':')).toInt();
+        String serData = rest.substring(rest.indexOf(':')+1);
+        unsigned long color = strtol(serData.c_str(), NULL, 16);
+        Serial.println("IR Blasting: "+serData+"; "+color);
+        int i;
+        for(i = 0;i<retries;i++)
+        {
+          irsend.sendNEC(color, 32);
+          delay(100);
+        }
+      }
+      else if (type == "433")
+      {
+        char com[25];
+        rest.toCharArray(com, 25);
+        mySwitch.send(com);
+        Serial.println("RC Blasting: "+rest);
+
+      }
+      data = data.substring(data.indexOf(';')+1);
+    }
 }
