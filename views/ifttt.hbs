@@ -20,6 +20,7 @@
         <br><br>
         <form class="btn-group override-btns form-inline" data-toggle="buttons" data-actuator="{{_id}}">
           <div class="form-group">
+            <input type="hidden" class="override-ind" value="{{state.override}}">
             <button class="btn btn-primary" value="off">Auto</button>
             <button class="btn btn-danger" value="on">Man. Override</button>
             <span class="override_command" {{#unless state.override}} style="display: none;"{{/unless}}>
@@ -29,7 +30,7 @@
                 {{/each}}
               </select>
             </span>
-            <button class="btn btn-info" type="submit" style="display: none;">Save</button>
+            <a class="btn btn-info" type="submit" style="display: none;">Save</a>
           </div>
         </form>
       </div>
@@ -44,19 +45,26 @@ $(function(){
   $("#actuator-container-trigger").click(function(){
     $("#actuator-container").toggle();
   })
-  $(".override-btns button, .override_command").click(function(){
+  $(".override-btns button").click(function(){
     var value = $(this).attr("value")
     var actuator = $(this).parent().attr("data-actuator")
-    console.log(value)
     if(value == "on"){
       $(this).siblings(".override_command").show()
     }
     if(value == "off"){
       $(this).siblings(".override_command").hide()
     }
+    console.log(value)
+    $(this).siblings(".override-ind").val(value)
     $(this).siblings(".btn-info").show()
   })
+  $(".override_command").click(function(){$(this).siblings(".btn-info").show()});
   $(".btn-info").click(function(){
+    var value = $(this).siblings(".override_command:visible").length
+    var actuator = $(this).parent().parent().attr("data-actuator")
+    console.log(value, actuator)
+    console.log($(this).siblings("span").children("select").val())
+    $.post("")
     $(this).hide()
   })
 })
