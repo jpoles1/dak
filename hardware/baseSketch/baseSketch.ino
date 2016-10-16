@@ -57,7 +57,7 @@ void loop()
   if(loopstate == WAIT_TIME*100)
   {
     String resp = "";
-    resp = resp + "PIR:" + debouncePIR(); + ';';
+    resp = resp + "motion:" + debouncePIR(); + ';';
     resp = resp + checkTemp();
     resp = resp + "photo:" + AVERAGE(analogRead(PHOTO_PIN0),analogRead(PHOTO_PIN1)) + ";";
     resp = resp + '\n';
