@@ -12,3 +12,8 @@
 {"type":"rule","active":1,"name":"Hot in here","rule_if":{"sensor":"temp","comparator":">","value":"72"},"rule_then":{"command_id":"cCpZqgjZu0576CDW","command_name":"Outlet 3 - On"},"_id":"pQTk3pkzwhQoJ1QZ"}
 {"type":"actuator_command","name":"On","actuator":"hZTt5lx4ODHDzqzD","signal":"0100000000010101110000110","active":1,"_id":"qEYnMZmE9Mn8pTH7"}
 {"type":"actuator_command","name":"On","actuator":"RqBEVjhGH144Kfsi","signal":"0100000000010101001100110","active":1,"_id":"zckXRpsMtKWvykrC"}
+{"type":"rule","active":1,"name":"fuck yo bitch","rule_if":{"sensor":"temp","comparator":"=","value":"70"},"rule_then":{"command_id":"cCpZqgjZu0576CDW","command_name":"Outlet 3 - On"},"_id":"un81M9MLI7gI4mRi"}
+{"type":"rule","active":1,"name":"swish","rule_if":{"sensor":"motion","comparator":">","value":"0"},"rule_then":{"command_id":"cCpZqgjZu0576CDW","command_name":"Outlet 3 - On"},"_id":"gF1tUWUnYMeQDQbV"}
+{"active":0,"_id":"un81M9MLI7gI4mRi"}
+{"active":0,"_id":"gF1tUWUnYMeQDQbV"}
+{"active":0,"_id":"48YeAR0kC3DzDbje"}

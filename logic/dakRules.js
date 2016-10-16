@@ -10,7 +10,7 @@ dakRules.loadRules = function(){
 //Sensr info found in the sensor_list object
 dakRules.checkRules = function(){
   for(rule_id in rule_list){
-    rule = rule_lost[rule_id]
+    rule = rule_list[rule_id]
     console.log(rule)
   }
 }
