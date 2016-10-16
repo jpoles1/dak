@@ -19,6 +19,7 @@ dakActuators.loadActuatorCommands = function(){
       command_list[command.actuator].commands.push(command)
       return command_list
     }, command_list)
+    console.log(actuator_list)
     dakAPI.generateRoutes()
   })
 }
@@ -50,6 +51,14 @@ dakActuators.addActuatorCommand = function(name, actuator, signal, cb){
     }
     dakActuators.loadActuatorCommands()
     cb();
+  })
+}
+dakActuators.sendActuatorCommand = function(id, cb){
+  db.config.find({type: "actuator_command", _id: id, active: 1}).sort({_id: 1}).exec(function(err, docs){
+    command = docs[0]
+    command = actuator_types[command.signal_type]+":"+command.signal;
+    console.log("Sending command:", command)
+    ser.write(command)
   })
 }
 dakActuators.deleteActuator = function(id, cb){

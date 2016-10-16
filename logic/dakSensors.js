@@ -1,16 +1,14 @@
 var dakSensors = {};
-global.sensor_list = {
-
-};
+global.sensor_list = {};
 dakSensors.logStatus = function(){
   var numoutlets = dakMonitor.countOutlets();
   sensor_entry = {
     "type": "sensorlog",
     "time": new Date(),
-    "pir": room_status["pir"],
-    "pirct": room_status["pirct"], //Variable used to store the number of PIR trips in the past X minutes.
-    "temp": room_status["temp"],
-    "humid": room_status["humid"],
+    "pir": sensor_list["pir"],
+    "pirct": sensor_list["pirct"], //Variable used to store the number of PIR trips in the past X minutes.
+    "temp": sensor_list["temp"],
+    "humid": sensor_list["humid"],
     "outlets_on": numoutlets
   }
   db.activity.insert(sensor_entry, (err) => {
@@ -25,7 +23,7 @@ dakSensors.parseSensors = function(rawdata){
   var sensors = rawdata.toLowerCase().substring(0, rawdata.length-1).split(";");
   sensors.forEach(function(elem){
     var keywords = elem.split(":")
-    room_status[keywords[0]] = parseInt(keywords[1]);
+    sensor_list[keywords[0]] = parseInt(keywords[1]);
   })
 }
 module.exports = dakSensors;

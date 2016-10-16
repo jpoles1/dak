@@ -9,6 +9,7 @@ serialPort.list(function (err, ports) {
   if(typeof myPort === 'undefined' && process.env.devMode != 1){
     throw new Error("Could not connect to Arduino peripheral.");
   }
+  console.log(myPort)
   else{
     if(typeof myPort === 'undefined'){
       ser = {};

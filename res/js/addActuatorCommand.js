@@ -37,7 +37,7 @@ $(function(){
         submit_form: function(){
           console.log("SENT")
           if(this.valid_form){
-            $.post("/config/add_actuatorCommand", {
+            $.post("/add_actuatorCommand", {
               name: this.name,
               signal: this.signal
             }).done(function(){

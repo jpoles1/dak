@@ -1,27 +1,52 @@
+Array.prototype.contains = function(obj) {
+    var i = this.length;
+    while (i--) {
+        if (this[i] === obj) {
+            return true;
+        }
+    }
+    return false;
+}
 require('dotenv').config();
-if(!process.env.PORT) throw new Error("Need a valid server port.");
-global.db = require("./logic/dakDB");
-global.express = require("express");
-var exphbs  = require('express-handlebars');
-var bodyParser = require('body-parser');
-//Create express server
-var app = express()
-app.listen(process.env.PORT);
-console.log("Listening for HTTP traffic on port:", process.env.PORT)
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-//Sets the template engine to be handlebars
-var hbs = exphbs.create({defaultLayout: 'base'})
-app.engine('handlebars', hbs.engine);
-app.set('view engine', 'handlebars');
-//Serves all files in the res folder as static resources
-global.router = express.Router();
-global.api_router = express.Router();
-app.use('/res', express.static('res'));
-app.use(process.env.BASE_URL, router);
-global.dakSensors = require("./logic/dakSensors")
-global.dakUserLogic = require("./logic/dakUserLogic")
-global.dakAPI = require("./logic/dakAPI")
-global.dakActuators = require("./logic/dakActuators")
-require("./routers/routers")
-module.exports = app;
+require('./server')
+global.ser;
+var devMode = parseInt(process.env.devMode)
+var serialPort = require("serialport");
+serialPort.list(function (err, ports) {
+  var myPort = ports.find(function(port){
+    var portName = port.comName.split("/")[2].slice(0, -1);
+    return portName == "ttyUSB"
+  })
+  if(typeof myPort == 'undefined' && devMode != 1){
+    console.log(new Error("Could not connect to Arduino peripheral."))
+    process.exit()
+  }
+  else{
+    if(typeof myPort === 'undefined'){
+      ser = {};
+      ser.open = function(fun){
+        fun();
+      }
+      ser.on = function(param, fun){}
+      ser.write = function(t){}
+    }
+    else{
+      ser = new serialPort(myPort.comName, {
+       baudRate: 9600,
+       parser: serialPort.parsers.readline("\r\n")
+      });
+    }
+    ser.on('data', function(rawdata) {
+      var keywords = rawdata.toLowerCase().split(":");
+      if(["pir", "temp", "humid", "photo"].contains(keywords[0])){
+        dakSensors.parseSensors(rawdata)
+      }
+      else{
+        console.log('data received: ' + rawdata);
+      }
+    });
+    ser.on('close', function(){
+      process.exit()
+    });
+  }
+})
