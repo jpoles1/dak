@@ -23,5 +23,6 @@ global.dakSensors = require("./logic/dakSensors")
 global.dakUserLogic = require("./logic/dakUserLogic")
 global.dakAPI = require("./logic/dakAPI")
 global.dakActuators = require("./logic/dakActuators")
+global.dakRules = require("./logic/dakRules")
 require("./routers/routers")
 module.exports = app;
