@@ -92,7 +92,8 @@ String checkTemp()
   return resp;
 }
 
-void sendIR(String data){
+void sendIR(String data)
+{
     while(data.indexOf(';') != -1)
     {
       String command = data.substring(0, data.indexOf(';'));
