@@ -85,6 +85,7 @@
 <script src="{{BASE_URL}}res/js/justgage.js"></script>
 <script>
 $(function(){
+  setTimeout(function(){window.location.reload()}, 1*60*1000)
   $("#actuator-container-trigger").click(function(){
     $("#actuator-container").toggle();
   })

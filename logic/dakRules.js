@@ -6,6 +6,14 @@ dakRules.loadRules = function(){
     console.log(rule_list)
   })
 }
+//TODO: Create logic that checks each rule to see if it has been triggered given current sensor info
+//Sensr info found in the sensor_list object
+dakRules.checkRules = function(){
+  for(rule_id in rule_list){
+    rule = rule_lost[rule_id]
+    console.log(rule)
+  }
+}
 dakRules.createRule = function(name, rule_if, rule_then, cb){
   rule_entry = {
     type: "rule", active: 1,

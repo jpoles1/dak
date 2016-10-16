@@ -34,5 +34,7 @@ dakSensors.parseSensors = function(rawdata){
   var d = new Date()
   sensor_list.hour = d.getHours()
   console.log(sensor_list.time)
+  //When sensors are updated, check rules for changes.
+  dakRules.checkRules()
 }
 module.exports = dakSensors;
