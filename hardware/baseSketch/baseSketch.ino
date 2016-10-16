@@ -29,7 +29,7 @@ String serData;
 
 void setup()
 {
-  Serial.begin(38400);
+  Serial.begin(19200);
 
   //setup photoresistor pins
   pinMode(PHOTO_PIN1, INPUT);
@@ -57,10 +57,9 @@ void loop()
   if(loopstate == WAIT_TIME*100)
   {
     String resp = "";
-    resp = resp + "motion:" + debouncePIR(); + ';';
+    resp = resp + "motion:" + debouncePIR() + ";";
     resp = resp + checkTemp();
     resp = resp + "photo:" + AVERAGE(analogRead(PHOTO_PIN0),analogRead(PHOTO_PIN1)) + ";";
-    resp = resp + '\n';
     if(resp != "")
     {
       Serial.println(resp);
