@@ -38,10 +38,54 @@
   </div>
 </div>
 <h3>Rulebook</h3>
+{{#each rule_list}}
+  <div class="darkwell darkwell-bordered">
+    <h4>
+      <b>{{{name}}}</b>
+      -
+      If <u>{{rule_if.sensor}}</u> is {{rule_if.comparator}} <u>{{rule_if.value}}</u> then <u>{{rule_then.command_name}}</u>
+    </h4>
+    <a class="btn btn-xs btn-danger" href="/{{BASE_URL}}deleteRule?ruleid={{_id}}">Delete Rule</a>
+  </div>
+{{/each}}
+<div class="darkwell darkwell-bordered">
+  <form action="/addRule" method="POST">
+    <h3>Add a New Rule</h3>
+    <div>
+      <hr>
+      Rule <input type="text" name="name" placeholder="named...">:
+      <hr>
+      If
+      <select style="color: black" name="rule_sensor">
+        {{#each sensor_list}}
+          <option value="{{@key}}">{{@key}}</option>
+        {{/each}}
+      </select>
+      is
+      <select style="color: black" name="rule_comparator">
+        <option value="=">=</option>
+        <option value=">">></option>
+        <option value="<"><</option>
+      </select>
+      <input type="text" placeholder="value..." name="rule_value">
+      <br>
+      Then <select style="color: black" name="rule_then">
+        {{#each actuator_list}}
+          {{#each commands}}
+            <option value="{{_id}}:{{../name}} - {{name}}">{{../name}} - {{name}}</option>
+          {{/each}}
+        {{/each}}
+      </select>
+      <hr>
+      <button type="submit" class="btn btn-xs btn-primary">Add Rule</button><br>
+    </div>
+  </form>
+</div>
 <script src="{{BASE_URL}}res/js/raphael-2.1.4.min.js"></script>
 <script src="{{BASE_URL}}res/js/justgage.js"></script>
 <script>
 $(function(){
+  setTimeout(function(){window.location.reload()}, 1*60*1000)
   $("#actuator-container-trigger").click(function(){
     $("#actuator-container").toggle();
   })

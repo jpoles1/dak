@@ -1,6 +1,6 @@
 var dakActuators = {};
 global.actuator_types = {"433 MHz": "433", "IR": "IR", "315 MHz": "315"}
-global.actuator_list = [];
+global.actuator_list = {};
 dakActuators.loadActuators = function(){
   db.config.find({type: "actuator", active: 1}).sort({name: 1 }).exec(function(err, docs){
     actuator_list = docs;
@@ -48,7 +48,7 @@ dakActuators.addActuatorCommand = function(name, actuator, signal, cb){
       console.log("Failed to add entry to DB")
       return 1;
     }
-    dakActuators.loadActuatorCommands()
+    dakActuators.loadActuators()
     cb();
   })
 }
@@ -69,7 +69,7 @@ dakActuators.deleteActuator = function(id, cb){
 }
 dakActuators.deleteActuatorCommand = function(id, cb){
   db.config.update({type: "actuator_command", _id: id}, {active: 0}, {}, ()=>{
-    dakActuators.loadActuatorCommands()
+    dakActuators.loadActuators()
     cb()
   })
 }

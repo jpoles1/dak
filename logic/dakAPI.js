@@ -1,4 +1,5 @@
 var dakAPI = {};
+//TODO: Create logic that accepts some sort of identifier for each command via a URL and runs the command
 dakAPI.generateRoutes = function(){
   api_router = express.Router();
   for(actuator_id in actuator_list){

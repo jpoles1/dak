@@ -33,7 +33,7 @@ $(function(){
     methods: {
       submit_form: function(){
         if(this.valid_form){
-          $.post("/add_actuator", {
+          $.post("/addActuator", {
             name: this.name,
             signal_type: this.signal_type
           }).done(function(){

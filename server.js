@@ -19,9 +19,9 @@ global.router = express.Router();
 global.api_router = express.Router();
 app.use('/res', express.static('res'));
 app.use(process.env.BASE_URL, router);
-global.dakSensors = require("./logic/dakSensors")
-global.dakUserLogic = require("./logic/dakUserLogic")
 global.dakAPI = require("./logic/dakAPI")
 global.dakActuators = require("./logic/dakActuators")
+global.dakRules = require("./logic/dakRules")
+global.dakSensors = require("./logic/dakSensors")
 require("./routers/routers")
 module.exports = app;
