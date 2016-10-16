@@ -19,6 +19,8 @@ We managed to assemble a functional system which sends and receives information 
 
 ## What we learned
 
+It's challenging to prototype, design, and develop a hardware+software project, but it's also a ton of fun!
+
 ## What's next for Dorm Automation Kit (DAK)
 
 There's so much more that can be done to extend and improve this system! We're excited to see what ourselves, and others, can accomplish with the framework we've established.
