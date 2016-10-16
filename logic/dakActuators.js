@@ -19,7 +19,6 @@ dakActuators.loadActuatorCommands = function(){
       command_list[command.actuator].commands.push(command)
       return command_list
     }, command_list)
-    console.log(actuator_list)
     dakAPI.generateRoutes()
   })
 }

@@ -15,7 +15,7 @@ var serialPort = require("serialport");
 serialPort.list(function (err, ports) {
   var myPort = ports.find(function(port){
     var portName = port.comName.split("/")[2].slice(0, -1);
-    return portName == "ttyUSB"
+    return portName == "ttyACM"
   })
   if(typeof myPort == 'undefined' && devMode != 1){
     console.log(new Error("Could not connect to Arduino peripheral."))
@@ -32,18 +32,13 @@ serialPort.list(function (err, ports) {
     }
     else{
       ser = new serialPort(myPort.comName, {
-       baudRate: 9600,
-       parser: serialPort.parsers.readline("\r\n")
+       baudRate: 19200,
+       parser: serialPort.parsers.readline("\n")
       });
     }
     ser.on('data', function(rawdata) {
-      var keywords = rawdata.toLowerCase().split(":");
-      if(["pir", "temp", "humid", "photo"].contains(keywords[0])){
-        dakSensors.parseSensors(rawdata)
-      }
-      else{
-        console.log('data received: ' + rawdata);
-      }
+      dakSensors.parseSensors(rawdata)
+      console.log('data received: ' + rawdata);
     });
     ser.on('close', function(){
       process.exit()

@@ -60,11 +60,20 @@ $(function(){
   })
   $(".override_command").click(function(){$(this).siblings(".btn-info").show()});
   $(".btn-info").click(function(){
-    var value = $(this).siblings(".override_command:visible").length
+    var override = $(this).siblings(".override_command:visible").length
     var actuator = $(this).parent().parent().attr("data-actuator")
-    console.log(value, actuator)
-    console.log($(this).siblings("span").children("select").val())
-    $.post("")
+    var id = $(this).siblings("span").children("select").val();
+    console.log()
+    if(override){
+      $.post("{{BASEURL}}setActuator", {
+        id, actuator
+      })
+    }
+    else{
+      $.post("{{BASEURL}}setActuator", {
+        actuator
+      })
+    }
     $(this).hide()
   })
 })

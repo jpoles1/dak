@@ -11,6 +11,16 @@ router.get("/actuators", (req, res) => {
   res.page_data.actuator_list = actuator_list;
   res.render("actuators.hbs", res.page_data)
 })
+router.post("/setActuator", (req, res) => {
+  if(req.body.id){
+    dakActuators.sendActuatorCommand(req.body.id, function(){
+      res.redirect("/ifttt")
+    })
+  }
+  else{
+    res.redirect("/ifttt")
+  }
+})
 router.post("/add_actuator", (req, res) => {
   if(req.body.name && req.body.signal_type){
     dakActuators.addActuator(req.body.name, req.body.signal_type, function(){
