@@ -4,6 +4,7 @@ router.use((req, res, next) => {
 router.get("/ifttt", (req, res) => {
   res.page_data.actuator_list = actuator_list;
   res.page_data.sensor_list = sensor_list;
+  res.page_data.rule_list = rule_list;
   res.render("ifttt.hbs", res.page_data)
 })
 router.get("/actuators", (req, res) => {
@@ -21,7 +22,7 @@ router.post("/setActuator", (req, res) => {
     res.redirect("/ifttt")
   }
 })
-router.post("/add_actuator", (req, res) => {
+router.post("/addActuator", (req, res) => {
   if(req.body.name && req.body.signal_type){
     dakActuators.addActuator(req.body.name, req.body.signal_type, function(){
       res.redirect("/ifttt")
@@ -31,7 +32,7 @@ router.post("/add_actuator", (req, res) => {
     res.redirect("/ifttt")
   }
 })
-router.post("/add_actuatorCommand", (req, res) => {
+router.post("/addActuatorCommand", (req, res) => {
   if(req.body.name && req.body.actuator && req.body.signal){
     dakActuators.addActuatorCommand(req.body.name, req.body.actuator, req.body.signal, function(){
       res.redirect("/actuators")
@@ -41,7 +42,7 @@ router.post("/add_actuatorCommand", (req, res) => {
     res.redirect("/actuators")
   }
 })
-router.get("/delete_actuatorCommand", (req, res) => {
+router.get("/deleteActuatorCommand", (req, res) => {
   console.log(req.query.actid)
   if(req.query.actid){
     dakActuators.deleteActuatorCommand(req.query.actid, function(){

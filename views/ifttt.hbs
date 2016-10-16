@@ -38,6 +38,39 @@
   </div>
 </div>
 <h3>Rulebook</h3>
+{{#each rule_list}}
+  {{name}}
+{{/each}}
+<div class="darkwell darkwell-bordered">
+  <form action="/addRule" method="POST">
+    <h3>Add a New Rule</h3>
+    <div>
+      If
+      <select style="color: black" name="rule_sensor">
+        {{#each sensor_list}}
+          <option value="{{@index}}">{{@index}}</option>
+        {{/each}}
+      </select>
+      is
+      <select style="color: black" name="rule_comparator">
+        <option value="eq">=</option>
+        <option value="gt">></option>
+        <option value="lt"><</option>
+      </select>
+      <input type="text" placeholder="value..." name="rule_value">
+      <br>
+      Then <select style="color: black">
+        {{#each actuator_list}}
+          {{#each commands}}
+            <option>{{../name}} - {{name}}</option>
+          {{/each}}
+        {{/each}}
+      </select>
+      <br><br>
+      <button type="submit" class="btn btn-xs btn-primary">Add Rule</button><br>
+    </div>
+  </form>
+</div>
 <script src="{{BASE_URL}}res/js/raphael-2.1.4.min.js"></script>
 <script src="{{BASE_URL}}res/js/justgage.js"></script>
 <script>

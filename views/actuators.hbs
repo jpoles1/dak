@@ -6,11 +6,11 @@
     {{#each commands}}
       <div class="darkwell darkwell-bordered">
         <h4><b>{{{this.name}}}</b> via <b>{{../signal_type}}</b> - {{signal}}</h4>
-        <a class="btn btn-xs btn-danger" href="/{{BASE_URL}}config/delete_actuatorCommand?actid={{_id}}">Delete Command</a>
+        <a class="btn btn-xs btn-danger" href="/{{BASE_URL}}deleteActuatorCommand?actid={{_id}}">Delete Command</a>
       </div>
     {{/each}}
     <div class="darkwell darkwell-bordered">
-      <form action="/add_actuatorCommand" method="POST">
+      <form action="/addActuatorCommand" method="POST">
         <h3 class="command_link" style="text-decoration: underline;">Add a New Command</h3>
         <div class="command_reveal">
           Add command* <input type="text" name="name" placeholder="named..."> via {{signal_type}}: <input type="text" name="signal">

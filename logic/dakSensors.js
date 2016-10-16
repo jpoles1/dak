@@ -1,5 +1,11 @@
 var dakSensors = {};
-global.sensor_list = {};
+global.sensor_list = {
+  "temp": undefined,
+  "humid": undefined,
+  "photo": undefined,
+  "motion": undefined,
+  "hour": undefined
+};
 dakSensors.logStatus = function(){
   var numoutlets = dakMonitor.countOutlets();
   sensor_entry = {
@@ -25,5 +31,8 @@ dakSensors.parseSensors = function(rawdata){
     var keywords = elem.split(":")
     sensor_list[keywords[0]] = parseInt(keywords[1]);
   })
+  var d = new Date()
+  sensor_list.hour = d.getHours()
+  console.log(sensor_list.time)
 }
 module.exports = dakSensors;
