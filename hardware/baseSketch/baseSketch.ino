@@ -1,20 +1,19 @@
 #include <stdlib.h>
 #include <IRremote.h>
 #include <RCSwitch.h>
-#include <idDHT11.h>
+#include <dht11.h>
 
-#define WAIT_TIME 4
+#define WAIT_TIME 1
 int loopstate = 0;
 
 // setup for DHT11
 #define DHT_PIN 2
-#define DHT_ISR_NUM 0
-void dht11_wrapper();
-idDHT11 DHT11(DHT_PIN, DHT_ISR_NUM,dht11_wrapper);
+#define FAHR(x) ((x*18+5)/10 +32)
+dht11 DHT11;
 
 // PIR setup
 #define PIR_PIN 4
-#define PIR_CAL_TIME 60
+#define PIR_CAL_TIME 15
 #define MAXCHECKS 100
 unsigned char state[MAXCHECKS]={0};    // Array that maintains bounce status
 char Index = 0;   
@@ -58,9 +57,9 @@ void loop()
   if(loopstate == WAIT_TIME*100)
   {
     String resp = "";
-    resp = resp + "PIR:" + debouncePIR();
+    resp = resp + "PIR:" + debouncePIR(); + ';';
     resp = resp + checkTemp();
-    resp = resp + "photo:" + String(AVERAGE(analogRead(PHOTO_PIN0), analogRead(PHOTO_PIN1))) + ";";
+    resp = resp + "photo:" + AVERAGE(analogRead(PHOTO_PIN0),analogRead(PHOTO_PIN1)) + ";";
     resp = resp + '\n';
     if(resp != "")
     {
@@ -86,18 +85,13 @@ void serialEvent()
   }
 }
 
-void dht11_wrapper()
-{
-  DHT11.isrCallback();
-}
-
 String checkTemp()
 {
-  int chk = DHT11.acquireAndWait();
+  int chk = DHT11.read(DHT_PIN);
   String resp = "";
-  if(chk == IDDHTLIB_OK)
+  if(chk == DHTLIB_OK)
   {
-     resp = resp + "temp:" + String(int(DHT11.getFahrenheit())) + ";humid:" + String(int(DHT11.getHumidity()))+ ";";
+     resp = resp + "temp:" + String(FAHR(DHT11.temperature)) + ";humid:" + String(DHT11.humidity)+ ";";
   }
   return resp;
 }
@@ -136,6 +130,7 @@ void sendIR(String data){
 
 int debouncePIR(void)
 {
+  if(Index == MAXCHECKS) Serial.println("Debouncing");
   state[Index] = (digitalRead(PIR_PIN) == HIGH) ? 1 : 0;
   Index = (Index+1) % MAXCHECKS;
   int i;
