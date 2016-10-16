@@ -22,6 +22,37 @@ router.post("/setActuator", (req, res) => {
     res.redirect("/ifttt")
   }
 })
+router.post("/addRule", (req, res) => {
+  console.log(req.body)
+  if(req.body.name && req.body.rule_sensor && req.body.rule_comparator && req.body.rule_value && req.body.rule_then){
+    var command_id = req.body.rule_then.split(":")[0]
+    var command_name = req.body.rule_then.split(":")[1]
+    dakRules.createRule(req.body.name, {
+      sensor: req.body.rule_sensor,
+      comparator: req.body.rule_comparator,
+      value: req.body.rule_value
+    }, {
+      command_id, command_name
+    }, () => {
+      res.redirect("/ifttt")
+    })
+  }
+  else{
+    res.redirect("/ifttt")
+  }
+})
+router.get("/deleteRule", (req, res) => {
+  console.log(req.query.ruleid)
+  if(req.query.ruleid){
+    dakRules.deleteRule(req.query.ruleid, function(){
+      console.log("deleted")
+      res.redirect("/ifttt")
+    })
+  }
+  else{
+    res.redirect("/ifttt")
+  }
+})
 router.post("/addActuator", (req, res) => {
   if(req.body.name && req.body.signal_type){
     dakActuators.addActuator(req.body.name, req.body.signal_type, function(){

@@ -39,34 +39,44 @@
 </div>
 <h3>Rulebook</h3>
 {{#each rule_list}}
-  {{name}}
+  <div class="darkwell darkwell-bordered">
+    <h4>
+      <b>{{{name}}}</b>
+      -
+      If <u>{{rule_if.sensor}}</u> is {{rule_if.comparator}} <u>{{rule_if.value}}</u> then <u>{{rule_then.command_name}}</u>
+    </h4>
+    <a class="btn btn-xs btn-danger" href="/{{BASE_URL}}deleteRule?ruleid={{_id}}">Delete Rule</a>
+  </div>
 {{/each}}
 <div class="darkwell darkwell-bordered">
   <form action="/addRule" method="POST">
     <h3>Add a New Rule</h3>
     <div>
+      <hr>
+      Rule <input type="text" name="name" placeholder="named...">:
+      <hr>
       If
       <select style="color: black" name="rule_sensor">
         {{#each sensor_list}}
-          <option value="{{@index}}">{{@index}}</option>
+          <option value="{{@key}}">{{@key}}</option>
         {{/each}}
       </select>
       is
       <select style="color: black" name="rule_comparator">
-        <option value="eq">=</option>
-        <option value="gt">></option>
-        <option value="lt"><</option>
+        <option value="=">=</option>
+        <option value=">">></option>
+        <option value="<"><</option>
       </select>
       <input type="text" placeholder="value..." name="rule_value">
       <br>
-      Then <select style="color: black">
+      Then <select style="color: black" name="rule_then">
         {{#each actuator_list}}
           {{#each commands}}
-            <option>{{../name}} - {{name}}</option>
+            <option value="{{_id}}:{{../name}} - {{name}}">{{../name}} - {{name}}</option>
           {{/each}}
         {{/each}}
       </select>
-      <br><br>
+      <hr>
       <button type="submit" class="btn btn-xs btn-primary">Add Rule</button><br>
     </div>
   </form>
