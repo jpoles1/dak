@@ -21,7 +21,7 @@ char Index = 0;
 //setup photoresistor
 #define PHOTO_PIN0 0
 #define PHOTO_PIN1 1
-#define AVERAGE(x,y) (((float)x + (float)y) / 2.0)
+#define AVERAGE(x,y) int(((float)x + (float)y) / 2.0)
 
 IRsend irsend;
 RCSwitch mySwitch = RCSwitch();
@@ -56,14 +56,11 @@ void loop()
 {
   if(loopstate == WAIT_TIME*100)
   {
-    String resp = "";
+    String resp = "begin;";
     resp = resp + "motion:" + debouncePIR() + ";";
     resp = resp + checkTemp();
     resp = resp + "photo:" + AVERAGE(analogRead(PHOTO_PIN0),analogRead(PHOTO_PIN1)) + ";";
-    if(resp != "")
-    {
-      Serial.println(resp);
-    }
+    Serial.println(resp);
     loopstate = 0;
   }
   else
