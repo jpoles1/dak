@@ -4,15 +4,19 @@ global.sensor_list = {
   "humid": undefined,
   "photo": undefined,
   "motion": undefined,
+  "motionct": 0,
   "hour": undefined
 };
+setInterval(() => {
+  sensor_list["motionct"] = 0
+}, 5*60*1000)
 dakSensors.logStatus = function(){
-  var numoutlets = dakMonitor.countOutlets();
+  var numoutlets = dakActuators.countOutlets();
   sensor_entry = {
     "type": "sensorlog",
     "time": new Date(),
-    "pir": sensor_list["pir"],
-    "pirct": sensor_list["pirct"], //Variable used to store the number of PIR trips in the past X minutes.
+    "motion": sensor_list["motion"],
+    "motionct": sensor_list["motionct"], //Variable used to store the number of PIR trips in the past X minutes.
     "temp": sensor_list["temp"],
     "humid": sensor_list["humid"],
     "outlets_on": numoutlets
@@ -25,15 +29,22 @@ dakSensors.logStatus = function(){
     console.log("Added entry to DB:", sensor_entry)
   })
 }
+var report_ct = -1;
 dakSensors.parseSensors = function(rawdata){
+  report_ct+=1;
   var sensors = rawdata.toLowerCase().substring(0, rawdata.length-1).split(";");
   sensors.forEach(function(elem){
     var keywords = elem.split(":")
+    if(keywords[0] == "motion" && keywords[1]=="1"){
+      sensor_list["motionct"] +=1;
+    }
     sensor_list[keywords[0]] = parseInt(keywords[1]);
   })
   var d = new Date()
   sensor_list.hour = d.getHours()
-  console.log(sensor_list.time)
+  if(report_ct%30 == 0){
+    dakSensors.logStatus()
+  }
   //When sensors are updated, check rules for changes.
   dakRules.checkRules()
 }

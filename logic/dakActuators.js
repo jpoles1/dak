@@ -1,6 +1,14 @@
 var dakActuators = {};
 global.actuator_types = {"433 MHz": "433", "IR": "IR", "315 MHz": "315"}
 global.actuator_list = {};
+dakActuators.countOutlets = function(){
+  onct = 0;
+  for(actuator_id in actuator_list){
+    actuator = actuator_list[actuator_id]
+    onct += actuator.state.on
+  }
+  return onct
+}
 dakActuators.loadActuators = function(){
   db.config.find({type: "actuator", active: 1}).sort({name: 1 }).exec(function(err, docs){
     actuator_list = docs;
@@ -55,7 +63,14 @@ dakActuators.addActuatorCommand = function(name, actuator, signal, cb){
 dakActuators.sendActuatorCommand = function(id, cb){
   db.config.find({type: "actuator_command", _id: id, active: 1}).sort({_id: 1}).exec(function(err, docs){
     command = docs[0]
-    console.log(actuator_list[command.actuator].signal_type)
+    console.log(actuator_list[command.actuator])
+    if(command.name.toLowerCase() == "on"){
+      actuator_list[command.actuator].state.on = 1
+    }
+    if(command.name.toLowerCase() == "off"){
+      actuator_list[command.actuator].state.on = 0
+    }
+    console.log(actuator_list[command.actuator])
     command = actuator_types[actuator_list[command.actuator].signal_type]+":"+command.signal+";\n";
     console.log("Sending command:", command)
     ser.write(command)

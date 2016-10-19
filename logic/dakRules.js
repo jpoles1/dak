@@ -3,7 +3,6 @@ global.rule_list = {};
 dakRules.loadRules = function(){
   db.config.find({type: "rule", active: 1}).sort({name: 1 }).exec(function(err, docs){
     rule_list = docs;
-    console.log(rule_list)
   })
 }
 //TODO: Create logic that checks each rule to see if it has been triggered given current sensor info
@@ -11,7 +10,6 @@ dakRules.loadRules = function(){
 dakRules.checkRules = function(){
   for(rule_id in rule_list){
     rule = rule_list[rule_id]
-    console.log(rule)
   }
 }
 dakRules.createRule = function(name, rule_if, rule_then, cb){

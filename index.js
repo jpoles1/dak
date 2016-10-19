@@ -14,9 +14,10 @@ var devMode = parseInt(process.env.devMode)
 var serialPort = require("serialport");
 serialPort.list(function (err, ports) {
   var myPort = ports.find(function(port){
-    //var portName = port.comName.split("/")[2].slice(0, -1);
-    return 1
+    var portName = port.comName.split("/")[2].slice(0, -1);
+    return portName == "ttyUSB" && "manufacturer" != undefined;
   })
+  console.log(myPort)
   if(typeof myPort == 'undefined' && devMode != 1){
     console.log(new Error("Could not connect to Arduino peripheral."))
     process.exit()
@@ -37,9 +38,13 @@ serialPort.list(function (err, ports) {
       });
     }
     ser.on('data', function(rawdata) {
+      if(["motion", "temp", "humid", "photo"])
       dakSensors.parseSensors(rawdata)
       console.log('data received: ' + rawdata);
     });
+    ser.on('error', function(error) {
+      console.log('Serial port error: ' + error);
+    })
     ser.on('close', function(){
       process.exit()
     });
