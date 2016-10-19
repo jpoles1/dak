@@ -1,5 +1,5 @@
 <h3>Sensors</h3>
-<ul class="darkwell darkwell-bordered" style="list-style: none">
+<ul id="gage-panel" class="darkwell darkwell-bordered" style="list-style: none">
   <li>Temperature: {{sensor_list.temp}}</li>
   <li>Humidity: {{sensor_list.humid}}</li>
   <li>Brightness: {{sensor_list.photo}}</li>
@@ -85,7 +85,9 @@
 <script src="{{BASE_URL}}res/js/justgage.js"></script>
 <script>
 $(function(){
-  setTimeout(function(){window.location.reload()}, 1*60*1000)
+  setInterval(function(){
+    $("gage-panel").html()
+  }, 10*1000)
   $("#actuator-container-trigger").click(function(){
     $("#actuator-container").toggle();
   })
