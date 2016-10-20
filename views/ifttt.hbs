@@ -95,15 +95,13 @@ $(function(){
         id: sensor_name+"-gage",
         value: sensor_value,
         title: sensor_name,
-        max: sensor_value*1.5+.5,
-        hideMinMax: 1,
+        max: Math.ceil(sensor_value*1.5+.5),
         valueFontColor: "#eee"
       })
       gage_dict[sensor_name].refresh(sensor_value, gage_dict[sensor_name].config.max < sensor_value ? sensor_value : gage_dict[sensor_name].config.max)
     }
   })
   setInterval(function(){
-    console.log("test")
     getSensorData(function(data){
       for(sensor_name in data){
         sensor_value = data[sensor_name]
