@@ -12,6 +12,9 @@ router.get("/actuators", (req, res) => {
   res.page_data.actuator_list = actuator_list;
   res.render("actuators.hbs", res.page_data)
 })
+router.get("/sensordata", (req, res) => {
+  res.json(sensor_list)
+})
 router.post("/setActuator", (req, res) => {
   if(req.body.id){
     dakActuators.sendActuatorCommand(req.body.id, function(){

@@ -38,7 +38,9 @@ dakSensors.parseSensors = function(rawdata){
     if(keywords[0] == "motion" && keywords[1]=="1"){
       sensor_list["motionct"] +=1;
     }
-    sensor_list[keywords[0]] = parseInt(keywords[1]);
+    if(["motion", "temp", "humid", "photo"].contains(keywords[0])){
+      sensor_list[keywords[0]] = parseInt(keywords[1]);
+    }
   })
   var d = new Date()
   sensor_list.hour = d.getHours()

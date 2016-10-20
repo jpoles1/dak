@@ -38,7 +38,6 @@ serialPort.list(function (err, ports) {
       });
     }
     ser.on('data', function(rawdata) {
-      if(["motion", "temp", "humid", "photo"])
       dakSensors.parseSensors(rawdata)
       console.log('data received: ' + rawdata);
     });
