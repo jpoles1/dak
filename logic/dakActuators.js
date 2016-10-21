@@ -63,14 +63,12 @@ dakActuators.addActuatorCommand = function(name, actuator, signal, cb){
 dakActuators.sendActuatorCommand = function(id, cb){
   db.config.find({type: "actuator_command", _id: id, active: 1}).sort({_id: 1}).exec(function(err, docs){
     command = docs[0]
-    console.log(actuator_list[command.actuator])
     if(command.name.toLowerCase() == "on"){
       actuator_list[command.actuator].state.on = 1
     }
     if(command.name.toLowerCase() == "off"){
       actuator_list[command.actuator].state.on = 0
     }
-    console.log(actuator_list[command.actuator])
     command = actuator_types[actuator_list[command.actuator].signal_type]+":"+command.signal+";\n";
     console.log("Sending command:", command)
     ser.write(command)

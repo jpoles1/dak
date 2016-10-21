@@ -29,7 +29,7 @@ dakSensors.logStatus = function(){
     console.log("Added entry to DB:", sensor_entry)
   })
 }
-var report_ct = -1;
+var report_ct = 0;
 dakSensors.parseSensors = function(rawdata){
   report_ct+=1;
   var sensors = rawdata.toLowerCase().substring(0, rawdata.length-1).split(";");
