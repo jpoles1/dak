@@ -13,7 +13,6 @@ dakSleep.goToSleep = function(cb){
       for(i in docs){
         command = docs[i]
         if(command.active == 1){
-          console.log(command)
           dakActuators.sendActuatorCommand(command)
         }
       }
@@ -32,7 +31,6 @@ dakSleep.wakeUp = function(cb){
       for(i in docs){
         command = docs[i]
         if(command.active == 1){
-          console.log(command)
           dakActuators.sendActuatorCommand(command)
         }
       }

@@ -11,7 +11,7 @@ dakRules.loadRules = function(cb){
 }
 //TODO: Create logic that checks each rule to see if it has been triggered given current sensor info
 //Sensr info found in the sensor_list object
-dakRules.checkRules = function(){
+dakRules.checkRules = function(cb){
   for(rule_id in rule_list){
     rule = rule_list[rule_id]
     if(rule.active!=0 && rule.rule_if && eval(sensor_list[rule.rule_if.sensor]+" "+rule.rule_if.comparator+" "+rule.rule_if.value)){
@@ -24,6 +24,7 @@ dakRules.checkRules = function(){
       }
     }
   }
+  if(cb){cb()}
 }
 dakRules.createRule = function(name, rule_if, rule_then, cb){
   rule_entry = {

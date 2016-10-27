@@ -48,6 +48,8 @@ dakSensors.parseSensors = function(rawdata){
     dakSensors.logStatus()
   }
   //When sensors are updated, check rules for changes.
-  dakRules.checkRules()
+  dakRules.checkRules(()=>{
+    sensor_list["outlets_on"] = dakActuators.countOutlets()
+  })
 }
 module.exports = dakSensors;
