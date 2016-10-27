@@ -20,7 +20,7 @@ dakRules.checkRules = function(){
       if(rule.rule_then){
         rule.active=1
         console.log(rule_list[rule_id].active)
-        dakActuators.sendActuatorCommand(rule.rule_then.command_id)
+        dakActuators.sendActuatorCommandByID(rule.rule_then.command_id)
       }
     }
   }

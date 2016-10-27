@@ -17,7 +17,7 @@ router.get("/sensordata", (req, res) => {
 })
 router.post("/setActuator", (req, res) => {
   if(req.body.id){
-    dakActuators.sendActuatorCommand(req.body.id, function(){
+    dakActuators.sendActuatorCommandByID(req.body.id, function(){
       res.redirect("/ifttt")
     })
   }

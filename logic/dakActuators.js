@@ -31,24 +31,33 @@ dakActuators.loadActuatorCommands = function(){
   })
 }
 dakActuators.addActuator = function(name, signal_type, cb){
+  api_name = name.replace(/\W/g, '').toLowerCase()
   actuator_entry = {
     type: "actuator",
-    name, signal_type,
+    name, api_name, signal_type,
     active: 1
   }
-  db.config.insert(actuator_entry, (err) => {
-    if(err){
-      console.log("Failed to add entry to DB")
-      return 1;
+  db.config.find({name}, (err, docs) => {
+    if(docs.length == 0){
+      console.log("Non-unique name.") //Show this error to the user.
     }
-    dakActuators.loadActuators()
-    cb();
+    else{
+      db.config.insert(actuator_entry, (err) => {
+        if(err){
+          console.log("Failed to add entry to DB")
+          return 1;
+        }
+        dakActuators.loadActuators()
+        cb();
+      })
+    }
   })
 }
 dakActuators.addActuatorCommand = function(name, actuator, signal, cb){
+  api_name = name.replace(/\W/g, '').toLowerCase()
   actuatorCommand_entry = {
     type: "actuator_command",
-    name, actuator, signal,
+    name, api_name, actuator, signal,
     active: 1
   }
   db.config.insert(actuatorCommand_entry, (err) => {
@@ -60,7 +69,18 @@ dakActuators.addActuatorCommand = function(name, actuator, signal, cb){
     cb();
   })
 }
-dakActuators.sendActuatorCommand = function(id, cb){
+dakActuators.sendActuatorCommand = function(command, cb){
+  if(command.name.toLowerCase() == "on"){
+    actuator_list[command.actuator].state.on = 1
+  }
+  if(command.name.toLowerCase() == "off"){
+    actuator_list[command.actuator].state.on = 0
+  }
+  command = actuator_types[actuator_list[command.actuator].signal_type]+":"+command.signal+";\n";
+  console.log("Sending command:", command)
+  ser.write(command)
+}
+dakActuators.sendActuatorCommandByID = function(id, cb){
   db.config.find({type: "actuator_command", _id: id, active: 1}).sort({_id: 1}).exec(function(err, docs){
     command = docs[0]
     if(command.name.toLowerCase() == "on"){
