@@ -30,7 +30,7 @@ dakAPI.generateRoutes = function(){
       if(err){
         req.params.err = err
       }
-      res.json(req.params)
+      res.send(JSON.stringify(req.params))
     })
   })
   api_router.get("/sleep", (req, res) => {
@@ -53,7 +53,7 @@ dakAPI.generateRoutes = function(){
         if(err){
           req.params.err = err
         }
-        res.json(req.params)
+        res.send(JSON.stringify(req.params))
       })
     }
     else{
