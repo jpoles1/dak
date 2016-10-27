@@ -4,8 +4,10 @@ global.sensor_list = {
   "humid": undefined,
   "photo": undefined,
   "motion": undefined,
+  "last_motion": undefined,
   "motionct": 0,
-  "hour": undefined
+  "hour": undefined,
+  "outlets_on": undefined
 };
 setInterval(() => {
   sensor_list["motionct"] = 0
@@ -17,6 +19,7 @@ dakSensors.logStatus = function(){
     "time": new Date(),
     "motion": sensor_list["motion"],
     "motionct": sensor_list["motionct"], //Variable used to store the number of PIR trips in the past X minutes.
+    "last_motion": sensor_list["last_motion"], //Variable used to store the number of sensor readings since last motion
     "temp": sensor_list["temp"],
     "humid": sensor_list["humid"],
     "outlets_on": numoutlets
@@ -37,6 +40,10 @@ dakSensors.parseSensors = function(rawdata){
     var keywords = elem.split(":")
     if(keywords[0] == "motion" && keywords[1]=="1"){
       sensor_list["motionct"] +=1;
+      sensor_list["last_motion"] = 0;
+    }
+    else{
+      sensor_list["last_motion"] +=1;
     }
     if(["motion", "temp", "humid", "photo"].contains(keywords[0])){
       sensor_list[keywords[0]] = parseInt(keywords[1]);
