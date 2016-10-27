@@ -1,6 +1,6 @@
 var dakActuators = {};
 global.actuator_types = {"433 MHz": "433", "IR": "IR", "315 MHz": "315"}
-global.actuator_list = {};
+global.actuator_list = {}; //list of form _id: {actuator info}
 dakActuators.countOutlets = function(){
   onct = 0;
   for(actuator_id in actuator_list){

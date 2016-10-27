@@ -33,6 +33,16 @@ dakAPI.generateRoutes = function(){
       res.json(req.params)
     })
   })
+  api_router.get("/sleep", (req, res) => {
+    dakSleep.goToSleep((msg) => {
+      res.send(msg)
+    })
+  });
+  api_router.get("/wake", (req, res) => {
+    dakSleep.wakeUp((msg) => {
+      res.send(msg)
+    })
+  });
   api_router.get("/voice", (req, res) => {
     if(req.query.speech && req.query.speech.split(" ").length>=2){
       words = req.query.speech.split(" ")
