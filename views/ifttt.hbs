@@ -66,6 +66,8 @@
       <input type="text" placeholder="value..." name="rule_value">
       <br>
       Then <select style="color: black" name="rule_then">
+        <option value="sleep">Sleep</option>
+        <option value="wake">Wake</option>
         {{#each actuator_list}}
           {{#each commands}}
             <option value="{{_id}}:{{../name}} - {{name}}">{{../name}} - {{name}}</option>

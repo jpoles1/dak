@@ -1,3 +1,4 @@
+{"type":"rule","active":1,"name":"Go to bed.","rule_if":{"sensor":"motionct","comparator":"<","value":"5"},"rule_then":{"command_name":"sleep"},"_id":"7t4pq12i6PjQqrp9"}
 {"type":"actuator_command","name":"Off","api_name":"off","actuator":"RqBEVjhGH144Kfsi","signal":"0100000000010101001111000","active":1,"_id":"RVNzi6E5yorRjudS"}
 {"type":"actuator","name":"Lamp","api_name":"lamp","signal_type":"433 MHz","active":1,"_id":"RqBEVjhGH144Kfsi"}
 {"type":"actuator_command","name":"Off","api_name":"off","actuator":"hZTt5lx4ODHDzqzD","signal":"0100000000010101110011000","active":1,"_id":"V3BAt3UWb6WQ9ppc"}

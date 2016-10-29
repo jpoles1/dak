@@ -14,13 +14,20 @@ dakRules.loadRules = function(cb){
 dakRules.checkRules = function(cb){
   for(rule_id in rule_list){
     rule = rule_list[rule_id]
-    if(rule.active!=0 && rule.rule_if && eval(sensor_list[rule.rule_if.sensor]+" "+rule.rule_if.comparator+" "+rule.rule_if.value)){
+    if(rule.active==1 && rule.rule_if && eval(sensor_list[rule.rule_if.sensor]+" "+rule.rule_if.comparator+" "+rule.rule_if.value)){
       console.log(sensor_list[rule.rule_if.sensor]+" "+rule.rule_if.comparator+" "+rule.rule_if.value)
-      console.log(rule.rule_then)
       if(rule.rule_then){
-        rule.active=1
-        console.log(rule_list[rule_id].active)
-        dakActuators.sendActuatorCommandByID(rule.rule_then.command_id)
+        if(rule.rule_then.command_id){
+          dakActuators.sendActuatorCommandByID(rule.rule_then.command_id)
+        }
+        else{
+          if(rule.rule_then.command_name == "sleep"){
+            dakSleep.goToSleep()
+          }
+          if(rule.rule_then.command_name == "wake"){
+            dakSleep.wakeUp()
+          }
+        }
       }
     }
   }

@@ -28,8 +28,12 @@ router.post("/setActuator", (req, res) => {
 router.post("/addRule", (req, res) => {
   console.log(req.body)
   if(req.body.name && req.body.rule_sensor && req.body.rule_comparator && req.body.rule_value && req.body.rule_then){
-    var command_id = req.body.rule_then.split(":")[0]
-    var command_name = req.body.rule_then.split(":")[1]
+    var command_id = undefined;
+    var command_name = req.body.rule_then.split(":")[0]
+    if(req.body.rule_then.split(":").length > 1){
+      command_id = req.body.rule_then.split(":")[0]
+      command_name = req.body.rule_then.split(":")[1]
+    }
     dakRules.createRule(req.body.name, {
       sensor: req.body.rule_sensor,
       comparator: req.body.rule_comparator,
