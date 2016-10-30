@@ -1,15 +1,11 @@
 <h3>Sensors</h3>
-<ul class="darkwell darkwell-bordered" style="list-style: none">
-  <li>Temperature: {{sensor_list.temp}}</li>
-  <li>Humidity: {{sensor_list.humid}}</li>
-  <li>Brightness: {{sensor_list.photo}}</li>
-  <li>Motion: {{sensor_list.motion}}</li>
-</ul>
+<div id="gage-panel" class="darkwell darkwell-bordered" style="display: flex; flex-direction: row; justify-content: space-around; flex-wrap: wrap;">
+</div>
 <h3><u id="actuator-container-trigger">Actuators</u></h3>
 <div id="actuator-container" style="display: none;">
-  <div style="display: flex; margin: auto; flex-direction: row; min-width: 250px; justify-content: space-around; flex-wrap: wrap; width: 36%;">
+  <div style="display: flex; margin: auto; flex-direction: row; justify-content: space-around; flex-wrap: wrap;">
     {{#each actuator_list}}
-      <div class="darkwell darkwell-bordered" style="flex-grow: 1">
+      <div class="darkwell darkwell-bordered" style="clear: none; min-width: 250px;  width: 30%;">
         <h4><i>{{name}}</i></h4>
         <b>Current Status</b>
         <ul>
@@ -63,13 +59,15 @@
       </select>
       is
       <select style="color: black" name="rule_comparator">
-        <option value="=">=</option>
+        <option value="==">=</option>
         <option value=">">></option>
         <option value="<"><</option>
       </select>
       <input type="text" placeholder="value..." name="rule_value">
       <br>
       Then <select style="color: black" name="rule_then">
+        <option value="sleep">Sleep</option>
+        <option value="wake">Wake</option>
         {{#each actuator_list}}
           {{#each commands}}
             <option value="{{_id}}:{{../name}} - {{name}}">{{../name}} - {{name}}</option>
@@ -85,7 +83,34 @@
 <script src="{{BASE_URL}}res/js/justgage.js"></script>
 <script>
 $(function(){
-  setTimeout(function(){window.location.reload()}, 1*60*1000)
+  getSensorData = function(cb){
+    $.get("/sensordata", function(data){
+      cb(data)
+    })
+  }
+  gage_dict = {}
+  getSensorData(function(data){
+    for(sensor_name in data){
+      sensor_value = data[sensor_name]
+      $("#gage-panel").append("<div id='"+sensor_name+"-gage' class='sensor-gage' data-sensorname='"+sensor_name+"'></div>")
+      gage_dict[sensor_name] = new JustGage({
+        id: sensor_name+"-gage",
+        value: sensor_value,
+        title: sensor_name,
+        max: Math.ceil(sensor_value*1.5+.5),
+        valueFontColor: "#eee"
+      })
+      gage_dict[sensor_name].refresh(sensor_value, gage_dict[sensor_name].config.max < sensor_value ? sensor_value : gage_dict[sensor_name].config.max)
+    }
+  })
+  setInterval(function(){
+    getSensorData(function(data){
+      for(sensor_name in data){
+        sensor_value = data[sensor_name]
+        gage_dict[sensor_name].refresh(sensor_value, gage_dict[sensor_name].config.max < sensor_value ? sensor_value : gage_dict[sensor_name].config.max)
+      }
+    })
+  }, 2.5*1000)
   $("#actuator-container-trigger").click(function(){
     $("#actuator-container").toggle();
   })
