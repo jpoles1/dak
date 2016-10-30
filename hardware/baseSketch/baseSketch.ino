@@ -1,7 +1,7 @@
 #include <stdlib.h>
-#include <IRremote.h>
-#include <RCSwitch.h>
-#include <dht11.h>
+#include "IRremote.h"
+#include "RCSwitch.h"
+#include "dht11.h"
 
 #define WAIT_TIME 1
 int loopstate = 0;
