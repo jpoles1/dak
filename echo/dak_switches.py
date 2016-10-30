@@ -19,7 +19,12 @@ import urllib2
 
 logging.basicConfig(level=logging.DEBUG)
 device_list = {"lamp": 52000, "fan": 52001, "strip": 52002, "wake": 52003, "sleep": 52004}
-
+def open_url(url):
+    try:
+        return urllib2.urlopen(url)
+    except e:
+        print "Failed to contact API Endpoint."
+        return 1
 class device_handler():
     def __init__(self, name):
         self.name = name
@@ -27,13 +32,13 @@ class device_handler():
     def on(self, client_address):
         state = "on";
         print "Setting device", self.name, "to", state, "from client @", client_address
-        urllib2.urlopen("http://127.0.0.1:3000/api/"+self.name+"-"+state).read()
+        open_url("http://127.0.0.1:3000/api/"+self.name+"-"+state)
         return True
 
     def off(self, client_address):
         state = "off";
         print "Setting device", self.name, "to", state, "from client @", client_address
-        urllib2.urlopen("http://127.0.0.1:3000/api/"+self.name+"-"+state).read()
+        open_url("http://127.0.0.1:3000/api/"+self.name+"-"+state)
         return True
 
 if __name__ == "__main__":
