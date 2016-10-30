@@ -118,6 +118,10 @@ void sendIR(String data)
         char com[25];
         rest.toCharArray(com, 25);
         mySwitch.send(com);
+        delay(100);
+        mySwitch.send(com);
+        delay(100);
+        mySwitch.send(com);
         Serial.println("RC Blasting: "+rest);
 
       }
