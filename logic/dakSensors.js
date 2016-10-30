@@ -32,7 +32,7 @@ dakSensors.logStatus = function(){
     console.log("Added entry to DB:", sensor_entry)
   })
 }
-var report_ct = 0;
+var report_ct = 1000;
 dakSensors.parseSensors = function(rawdata){
   report_ct+=1;
   var sensors = rawdata.toLowerCase().substring(0, rawdata.length-1).split(";");
@@ -51,8 +51,9 @@ dakSensors.parseSensors = function(rawdata){
   })
   var d = new Date()
   sensor_list.hour = d.getHours()
-  if(report_ct%30 == 0){
+  if(report_ct>60*2.5){ //every 2.5 minutes
     dakSensors.logStatus()
+    report_ct=0;
   }
   //When sensors are updated, check rules for changes.
   dakRules.checkRules(()=>{

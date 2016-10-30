@@ -17,7 +17,7 @@ serialPort.list(function (err, ports) {
     var portName = port.comName.split("/")[2].slice(0, -1);
     return portName == "ttyUSB" && "manufacturer" != undefined;
   })
-  console.log(myPort)
+  console.log("Listening on Serial port:", myPort)
   if(typeof myPort == 'undefined' && devMode != 1){
     console.log(new Error("Could not connect to Arduino peripheral."))
     process.exit()
