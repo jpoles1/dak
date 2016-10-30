@@ -27,13 +27,13 @@ class device_handler():
     def on(self, client_address):
         state = "on";
         print "Setting device", self.name, "to", state, "from client @", client_address
-        urllib2.urlopen("http://192.168.1.100:3000/api/"+self.name+"-"+state).read()
+        urllib2.urlopen("http://127.0.0.1:3000/api/"+self.name+"-"+state).read()
         return True
 
     def off(self, client_address):
         state = "off";
         print "Setting device", self.name, "to", state, "from client @", client_address
-        urllib2.urlopen("http://192.168.1.100:3000/api/"+self.name+"-"+state).read()
+        urllib2.urlopen("http://127.0.0.1:3000/api/"+self.name+"-"+state).read()
         return True
 
 if __name__ == "__main__":
