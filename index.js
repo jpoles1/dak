@@ -39,7 +39,7 @@ serialPort.list(function (err, ports) {
     }
     ser.on('data', function(rawdata) {
       dakSensors.parseSensors(rawdata)
-      console.log('data received: ' + rawdata);
+      //console.log('data received: ' + rawdata);
     });
     ser.on('error', function(error) {
       console.log('Serial port error: ' + error);
