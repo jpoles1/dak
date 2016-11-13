@@ -29,7 +29,7 @@ dakSensors.logStatus = function(){
       console.log("Failed to add entry to DB")
       return 1;
     }
-    console.log("Added entry to DB:", sensor_entry)
+    //console.log("Added entry to DB:", sensor_entry)
   })
 }
 var report_ct = 1000;
