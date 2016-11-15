@@ -4,7 +4,7 @@
   "description": "Dorm Automation Kit",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js & python echo/dak_switches.py",
+    "start": "python echo/dak_switches.py & node index.js",
     "test": "nodemon -i data index.js & python echo/dak_switches.py"
   },
   "repository": {
