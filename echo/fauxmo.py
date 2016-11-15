@@ -25,7 +25,6 @@ THE SOFTWARE.
 """
 
 # For a complete discussion, see http://www.makermusings.com
-# TODO(semartin): investigate time.sleep usage in here...
 
 import email.utils
 import requests
@@ -36,7 +35,8 @@ import sys
 import time
 import urllib
 import uuid
-import logging
+
+
 
 # This XML is the minimum needed to define one of our virtual switches
 # to the Amazon Echo
@@ -55,8 +55,13 @@ SETUP_XML = """<?xml version="1.0"?>
 """
 
 
+DEBUG = False
+
 def dbg(msg):
-    logging.debug(msg)
+    global DEBUG
+    if DEBUG:
+        print msg
+        sys.stdout.flush()
 
 
 # A simple utility class to wait for incoming data to be
@@ -64,29 +69,39 @@ def dbg(msg):
 
 class poller:
     def __init__(self):
-        self.poller = select.poll()
+        if 'poll' in dir(select):
+            self.use_poll = True
+            self.poller = select.poll()
+        else:
+            self.use_poll = False
         self.targets = {}
 
     def add(self, target, fileno = None):
         if not fileno:
             fileno = target.fileno()
-        self.poller.register(fileno, select.POLLIN)
+        if self.use_poll:
+            self.poller.register(fileno, select.POLLIN)
         self.targets[fileno] = target
 
     def remove(self, target, fileno = None):
         if not fileno:
             fileno = target.fileno()
-        self.poller.unregister(fileno)
+        if self.use_poll:
+            self.poller.unregister(fileno)
         del(self.targets[fileno])
 
     def poll(self, timeout = 0):
-        ready = self.poller.poll(timeout)
-        num = len(ready)
+        if self.use_poll:
+            ready = self.poller.poll(timeout)
+        else:
+            ready = []
+            if len(self.targets) > 0:
+                (rlist, wlist, xlist) = select.select(self.targets.keys(), [], [], timeout)
+                ready = [(x, None) for x in rlist]
         for one_ready in ready:
             target = self.targets.get(one_ready[0], None)
             if target:
                 target.do_read(one_ready[0])
-        return num
 
 
 # Base class for a generic UPnP device. This is far from complete
@@ -126,7 +141,6 @@ class upnp_device(object):
             self.ip_address = upnp_device.local_ip_address()
 
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.socket.bind((self.ip_address, self.port))
         self.socket.listen(5)
         if self.port == 0:
@@ -142,16 +156,16 @@ class upnp_device(object):
         if fileno == self.socket.fileno():
             (client_socket, client_address) = self.socket.accept()
             self.poller.add(self, client_socket.fileno())
-            self.client_sockets[client_socket.fileno()] = (client_socket, client_address)
+            self.client_sockets[client_socket.fileno()] = client_socket
         else:
-            data, sender = self.client_sockets[fileno][0].recvfrom(4096)
+            data, sender = self.client_sockets[fileno].recvfrom(4096)
             if not data:
                 self.poller.remove(self, fileno)
                 del(self.client_sockets[fileno])
             else:
-                self.handle_request(data, sender, self.client_sockets[fileno][0], self.client_sockets[fileno][1])
+                self.handle_request(data, sender, self.client_sockets[fileno])
 
-    def handle_request(self, data, sender, socket, client_address):
+    def handle_request(self, data, sender, socket):
         pass
 
     def get_name(self):
@@ -202,7 +216,7 @@ class fauxmo(upnp_device):
     def get_name(self):
         return self.name
 
-    def handle_request(self, data, sender, socket, client_address):
+    def handle_request(self, data, sender, socket):
         if data.find('GET /setup.xml HTTP/1.1') == 0:
             dbg("Responding to setup.xml for %s" % self.name)
             xml = SETUP_XML % {'device_name' : self.name, 'device_serial' : self.serial}
@@ -223,11 +237,11 @@ class fauxmo(upnp_device):
             if data.find('<BinaryState>1</BinaryState>') != -1:
                 # on
                 dbg("Responding to ON for %s" % self.name)
-                success = self.action_handler.on(client_address[0])
+                success = self.action_handler.on()
             elif data.find('<BinaryState>0</BinaryState>') != -1:
                 # off
                 dbg("Responding to OFF for %s" % self.name)
-                success = self.action_handler.off(client_address[0])
+                success = self.action_handler.off()
             else:
                 dbg("Unknown Binary State request:")
                 dbg(data)
@@ -310,7 +324,7 @@ class upnp_broadcast_responder(object):
         if data:
             if data.find('M-SEARCH') == 0 and data.find('urn:Belkin:device:**') != -1:
                 for device in self.devices:
-                    time.sleep(0.5)
+                    time.sleep(0.1)
                     device.respond_to_search(sender, 'urn:Belkin:device:**')
             else:
                 pass
@@ -345,19 +359,6 @@ class upnp_broadcast_responder(object):
 # This example class takes two full URLs that should be requested when an on
 # and off command are invoked respectively. It ignores any return data.
 
-class dummy_handler(object):
-    def __init__(self, name):
-        self.name = name
-
-    def on(self):
-        print self.name, "ON"
-        return True
-
-    def off(self):
-        print self.name, "OFF"
-        return True
-
-
 class rest_api_handler(object):
     def __init__(self, on_cmd, off_cmd):
         self.on_cmd = on_cmd
@@ -371,37 +372,51 @@ class rest_api_handler(object):
         r = requests.get(self.off_cmd)
         return r.status_code == 200
 
-if __name__ == "__main__":
-    FAUXMOS = [
-        ['office lights', dummy_handler("officelight")],
-        ['kitchen lights', dummy_handler("kitchenlight")],
-    ]
 
-    if len(sys.argv) > 1 and sys.argv[1] == '-d':
-        DEBUG = True
+# Each entry is a list with the following elements:
+#
+# name of the virtual switch
+# object with 'on' and 'off' methods
+# port # (optional; may be omitted)
 
-    # Set up our singleton for polling the sockets for data ready
-    p = poller()
+# NOTE: As of 2015-08-17, the Echo appears to have a hard-coded limit of
+# 16 switches it can control. Only the first 16 elements of the FAUXMOS
+# list will be used.
 
-    # Set up our singleton listener for UPnP broadcasts
-    u = upnp_broadcast_responder()
-    u.init_socket()
+FAUXMOS = [
+    ['office lights', rest_api_handler('http://192.168.5.4/ha-api?cmd=on&a=office', 'http://192.168.5.4/ha-api?cmd=off&a=office')],
+    ['kitchen lights', rest_api_handler('http://192.168.5.4/ha-api?cmd=on&a=kitchen', 'http://192.168.5.4/ha-api?cmd=off&a=kitchen')],
+]
 
-    # Add the UPnP broadcast listener to the poller so we can respond
-    # when a broadcast is received.
-    p.add(u)
 
-    # Create our FauxMo virtual switch devices
-    for one_faux in FAUXMOS:
-        switch = fauxmo(one_faux[0], u, p, None, 0, action_handler = one_faux[1])
+if len(sys.argv) > 1 and sys.argv[1] == '-d':
+    DEBUG = True
 
-    dbg("Entering main loop\n")
+# Set up our singleton for polling the sockets for data ready
+p = poller()
 
-    while True:
-        try:
-            # Allow time for a ctrl-c to stop the process
-            p.poll(100)
-            time.sleep(0.1)
-        except Exception, e:
-            dbg(e)
-            break
+# Set up our singleton listener for UPnP broadcasts
+u = upnp_broadcast_responder()
+u.init_socket()
+
+# Add the UPnP broadcast listener to the poller so we can respond
+# when a broadcast is received.
+p.add(u)
+
+# Create our FauxMo virtual switch devices
+for one_faux in FAUXMOS:
+    if len(one_faux) == 2:
+        # a fixed port wasn't specified, use a dynamic one
+        one_faux.append(0)
+    switch = fauxmo(one_faux[0], u, p, None, one_faux[2], action_handler = one_faux[1])
+
+dbg("Entering main loop\n")
+
+while True:
+    try:
+        # Allow time for a ctrl-c to stop the process
+        p.poll(100)
+        time.sleep(0.1)
+    except Exception, e:
+        dbg(e)
+        break
