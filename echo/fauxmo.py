@@ -388,35 +388,35 @@ FAUXMOS = [
     ['kitchen lights', rest_api_handler('http://192.168.5.4/ha-api?cmd=on&a=kitchen', 'http://192.168.5.4/ha-api?cmd=off&a=kitchen')],
 ]
 
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == '-d':
+        DEBUG = True
 
-if len(sys.argv) > 1 and sys.argv[1] == '-d':
-    DEBUG = True
+    # Set up our singleton for polling the sockets for data ready
+    p = poller()
 
-# Set up our singleton for polling the sockets for data ready
-p = poller()
+    # Set up our singleton listener for UPnP broadcasts
+    u = upnp_broadcast_responder()
+    u.init_socket()
 
-# Set up our singleton listener for UPnP broadcasts
-u = upnp_broadcast_responder()
-u.init_socket()
+    # Add the UPnP broadcast listener to the poller so we can respond
+    # when a broadcast is received.
+    p.add(u)
 
-# Add the UPnP broadcast listener to the poller so we can respond
-# when a broadcast is received.
-p.add(u)
+    # Create our FauxMo virtual switch devices
+    for one_faux in FAUXMOS:
+        if len(one_faux) == 2:
+            # a fixed port wasn't specified, use a dynamic one
+            one_faux.append(0)
+        switch = fauxmo(one_faux[0], u, p, None, one_faux[2], action_handler = one_faux[1])
 
-# Create our FauxMo virtual switch devices
-for one_faux in FAUXMOS:
-    if len(one_faux) == 2:
-        # a fixed port wasn't specified, use a dynamic one
-        one_faux.append(0)
-    switch = fauxmo(one_faux[0], u, p, None, one_faux[2], action_handler = one_faux[1])
+    dbg("Entering main loop\n")
 
-dbg("Entering main loop\n")
-
-while True:
-    try:
-        # Allow time for a ctrl-c to stop the process
-        p.poll(100)
-        time.sleep(0.1)
-    except Exception, e:
-        dbg(e)
-        break
+    while True:
+        try:
+            # Allow time for a ctrl-c to stop the process
+            p.poll(100)
+            time.sleep(0.1)
+        except Exception, e:
+            dbg(e)
+            break
