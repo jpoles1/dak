@@ -4,7 +4,7 @@ dakRules.loadRules = function(cb){
   db.config.find({type: "rule", active: 1}).sort({name: 1 }).exec(function(err, docs){
     rule_list = docs;
     for(rule_id in rule_list){
-      rule_list[rule_id].active = 0;
+      rule_list[rule_id].in_use = 0;
     }
     if(cb) cb()
   })
@@ -14,22 +14,29 @@ dakRules.loadRules = function(cb){
 dakRules.checkRules = function(cb){
   for(rule_id in rule_list){
     rule = rule_list[rule_id]
-    if(rule.active==1 && rule.rule_if && eval(sensor_list[rule.rule_if.sensor]+" "+rule.rule_if.comparator+" "+rule.rule_if.value)){
+    console.log(rule)
+    if(rule.active==1 && rule.rule_if){
       console.log(sensor_list[rule.rule_if.sensor]+" "+rule.rule_if.comparator+" "+rule.rule_if.value)
-      if(rule.rule_then){
-        console.log(rule.rule_then)
-        if(rule.rule_then.command_id){
-          dakActuators.sendActuatorCommandByID(rule.rule_then.command_id)
-        }
-        else{
-          if(rule.rule_then.command_name == "sleep"){
-            console.log("Rule says go to sleep.")
-            dakSleep.gotoSleep()
+      if(eval(sensor_list[rule.rule_if.sensor]+" "+rule.rule_if.comparator+" "+rule.rule_if.value)){
+        if(rule.rule_then & !rule.in_use){
+          console.log(rule.rule_then)
+          if(rule.rule_then.command_id){
+            dakActuators.sendActuatorCommandByID(rule.rule_then.command_id)
           }
-          if(rule.rule_then.command_name == "wake"){
-            dakSleep.wakeUp()
+          else{
+            if(rule.rule_then.command_name == "sleep"){
+              console.log("Rule says go to sleep.")
+              dakSleep.gotoSleep((msg) => console.log(msg))
+            }
+            if(rule.rule_then.command_name == "wake"){
+              dakSleep.wakeUp()
+            }
           }
+          rule.in_use = 1;
         }
+      }
+      else{
+        rule.in_use = 0;
       }
     }
   }
