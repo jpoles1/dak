@@ -15,11 +15,10 @@ dakRules.checkRules = function(cb){
   for(rule_id in rule_list){
     rule = rule_list[rule_id]
     if(rule.active==1 && rule.rule_if){
-      console.log(rule.name+":", sensor_list[rule.rule_if.sensor]+" "+rule.rule_if.comparator+" "+rule.rule_if.value)
       if(eval(sensor_list[rule.rule_if.sensor]+" "+rule.rule_if.comparator+" "+rule.rule_if.value)){
-        if(rule.rule_then & !rule.in_use){
+        console.log(rule.name+"("+rule.in_use+"):", sensor_list[rule.rule_if.sensor]+" "+rule.rule_if.comparator+" "+rule.rule_if.value)
+        if(rule.rule_then && rule.in_use==0){
           rule.in_use = 1;
-          console.log(rule)
           if(rule.rule_then.command_id){
             dakActuators.sendActuatorCommandByID(rule.rule_then.command_id)
           }
