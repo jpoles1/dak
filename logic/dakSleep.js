@@ -1,6 +1,6 @@
 var dakSleep = {}
 global.wake_list = []; //list of actuator _ids which should be switched upon wake
-dakSleep.goToSleep = function(cb){
+dakSleep.gotoSleep = function(cb){
   for(actuator_id in actuator_list){
     actuator = actuator_list[actuator_id]
     if(actuator.state.on  == 1){

@@ -17,12 +17,14 @@ dakRules.checkRules = function(cb){
     if(rule.active==1 && rule.rule_if && eval(sensor_list[rule.rule_if.sensor]+" "+rule.rule_if.comparator+" "+rule.rule_if.value)){
       console.log(sensor_list[rule.rule_if.sensor]+" "+rule.rule_if.comparator+" "+rule.rule_if.value)
       if(rule.rule_then){
+        console.log(rule.rule_then)
         if(rule.rule_then.command_id){
           dakActuators.sendActuatorCommandByID(rule.rule_then.command_id)
         }
         else{
           if(rule.rule_then.command_name == "sleep"){
-            dakSleep.goToSleep()
+            console.log("Rule says go to sleep.")
+            dakSleep.gotoSleep()
           }
           if(rule.rule_then.command_name == "wake"){
             dakSleep.wakeUp()

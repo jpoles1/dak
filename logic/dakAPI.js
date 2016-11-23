@@ -34,7 +34,7 @@ dakAPI.generateRoutes = function(){
     })
   })
   api_router.get("/sleep", (req, res) => {
-    dakSleep.goToSleep((msg) => {
+    dakSleep.gotoSleep((msg) => {
       res.send(msg)
     })
   });
