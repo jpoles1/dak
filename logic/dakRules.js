@@ -14,12 +14,12 @@ dakRules.loadRules = function(cb){
 dakRules.checkRules = function(cb){
   for(rule_id in rule_list){
     rule = rule_list[rule_id]
-    console.log(rule)
     if(rule.active==1 && rule.rule_if){
-      console.log(sensor_list[rule.rule_if.sensor]+" "+rule.rule_if.comparator+" "+rule.rule_if.value)
+      console.log(rule.name+":", sensor_list[rule.rule_if.sensor]+" "+rule.rule_if.comparator+" "+rule.rule_if.value)
       if(eval(sensor_list[rule.rule_if.sensor]+" "+rule.rule_if.comparator+" "+rule.rule_if.value)){
         if(rule.rule_then & !rule.in_use){
-          console.log(rule.rule_then)
+          rule.in_use = 1;
+          console.log(rule)
           if(rule.rule_then.command_id){
             dakActuators.sendActuatorCommandByID(rule.rule_then.command_id)
           }
@@ -32,7 +32,9 @@ dakRules.checkRules = function(cb){
               dakSleep.wakeUp()
             }
           }
-          rule.in_use = 1;
+        }
+        else{
+          console.log("Rule already active!")
         }
       }
       else{
