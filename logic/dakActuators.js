@@ -71,6 +71,8 @@ dakActuators.addActuatorCommand = function(name, actuator, signal, cb){
 }
 dakActuators.sendActuatorCommand = function(command, cb){
   if(command.name.toLowerCase() == "on"){
+    //Resets the list of sleeping devices (to be woken up later), as there has been a device already woken up.
+    dakSleep.wake_list = [];
     actuator_list[command.actuator].state.on = 1
   }
   if(command.name.toLowerCase() == "off"){
