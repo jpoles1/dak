@@ -114,7 +114,7 @@ window.onload = function(){
     },
     yAxis: [{
       title: {
-        text: 'PIR Count'
+        text: 'Last Motion'
       }
     },{
       title: {
@@ -142,7 +142,7 @@ window.onload = function(){
     timept = Date.parse(entry.time);
     tempoptions.series[0].data.push([timept, entry.temp]);
     tempoptions.series[1].data.push([timept, entry.humid]);
-    activity_options.series[0].data.push([timept, entry.pirct]);
+    activity_options.series[0].data.push([timept, entry.last_motion]);
     activity_options.series[1].data.push([timept, entry.outlets_on]);
   }
   for(entry_index in eventData){
