@@ -4,7 +4,7 @@ global.sensor_list = {
   "humid": undefined,
   "photo": undefined,
   "motion": undefined,
-  "last_motion": undefined,
+  "last_motion": 0,
   "motionct": 0,
   "hour": undefined,
   "outlets_on": undefined
