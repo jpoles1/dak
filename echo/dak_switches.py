@@ -18,7 +18,7 @@ import time
 import urllib2
 
 logging.basicConfig(level=logging.DEBUG)
-device_list = {"lamp": 52000, "fan": 52001, "strip": 52002, "wake": 52003, "sleep": 52004}
+device_list = {"lamp": 52000, "fan": 52001, "strip": 52002, "wake": 52003, "sleep": 52004, "monitors": 52005}
 def open_url(url):
     try:
         return urllib2.urlopen(url)
@@ -39,7 +39,10 @@ class device_handler():
     def off(self, client_address):
         state = "off";
         print "Setting device", self.name, "to", state, "from client @", client_address
-        open_url("http://127.0.0.1:3000/api/"+self.name+"-"+state)
+        if(self.name = "monitors"):
+            open_url("http://192.168.1.150:51339/")
+        else:
+            open_url("http://127.0.0.1:3000/api/"+self.name+"-"+state)
         return True
 
 if __name__ == "__main__":
