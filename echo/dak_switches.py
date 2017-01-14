@@ -22,7 +22,7 @@ device_list = {"lamp": 52000, "fan": 52001, "strip": 52002, "wake": 52003, "slee
 def open_url(url):
     try:
         return urllib2.urlopen(url)
-    except SocketError as e:
+    except e:
         print e
         print "Failed to contact API Endpoint."
         return 1
