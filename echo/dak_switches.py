@@ -67,4 +67,3 @@ if __name__ == "__main__":
             time.sleep(0.1)
         except Exception, e:
             logging.critical("Critical exception: " + str(e))
-            break
