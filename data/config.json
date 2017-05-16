@@ -1,31 +1,20 @@
-<<<<<<< HEAD
+{"active":0,"_id":"1P23ydV5axcYrpb0"}
 {"active":0,"_id":"48YeAR0kC3DzDbje"}
-{"type":"rule","active":1,"name":"Getting chilly","rule_if":{"sensor":"temp","comparator":"<","value":"70"},"rule_then":{"command_id":"lMpTHZMVGijI0zv7","command_name":"Outlet 3 - Off"},"_id":"CPJTacotveSCGGXt"}
-{"type":"rule","active":1,"name":"Nobody Home","rule_if":{"sensor":"motion","comparator":"=","value":"0"},"rule_then":{"command_id":"V3BAt3UWb6WQ9ppc","command_name":"Outlet 2 - Off"},"_id":"HTDxnraKTL1240zs"}
-{"type":"actuator_command","name":"Off","actuator":"RqBEVjhGH144Kfsi","signal":"0100000000010101001111000","active":1,"_id":"RVNzi6E5yorRjudS"}
-{"type":"actuator","name":"Outlet 1","signal_type":"433 MHz","active":1,"_id":"RqBEVjhGH144Kfsi"}
-{"type":"actuator_command","name":"Off","actuator":"hZTt5lx4ODHDzqzD","signal":"0100000000010101110011000","active":1,"_id":"V3BAt3UWb6WQ9ppc"}
-{"type":"rule","active":1,"name":"Nobody Home","rule_if":{"sensor":"motion","comparator":"=","value":"0"},"rule_then":{"command_id":"RVNzi6E5yorRjudS","command_name":"Outlet 1 - Off"},"_id":"bjMagMHeN7TeXUHc"}
-{"type":"actuator_command","name":"On","actuator":"dE2s0AFaUbfPljde","signal":"0100000000010111000000110","active":1,"_id":"cCpZqgjZu0576CDW"}
-{"type":"actuator","name":"Outlet 3","signal_type":"433 MHz","active":1,"_id":"dE2s0AFaUbfPljde"}
-{"active":0,"_id":"gF1tUWUnYMeQDQbV"}
-{"type":"actuator","name":"Outlet 2","signal_type":"433 MHz","active":1,"_id":"hZTt5lx4ODHDzqzD"}
-{"type":"actuator_command","name":"Off","actuator":"dE2s0AFaUbfPljde","signal":"0100000000010111000011000","active":1,"_id":"lMpTHZMVGijI0zv7"}
-{"type":"rule","active":1,"name":"Hot in here","rule_if":{"sensor":"temp","comparator":">","value":"72"},"rule_then":{"command_id":"cCpZqgjZu0576CDW","command_name":"Outlet 3 - On"},"_id":"pQTk3pkzwhQoJ1QZ"}
-{"type":"actuator_command","name":"On","actuator":"hZTt5lx4ODHDzqzD","signal":"0100000000010101110000110","active":1,"_id":"qEYnMZmE9Mn8pTH7"}
-{"active":0,"_id":"un81M9MLI7gI4mRi"}
-{"type":"actuator_command","name":"On","actuator":"RqBEVjhGH144Kfsi","signal":"0100000000010101001100110","active":1,"_id":"zckXRpsMtKWvykrC"}
-=======
-{"type":"rule","active":1,"name":"Go to bed.","rule_if":{"sensor":"motionct","comparator":"<","value":"5"},"rule_then":{"command_name":"sleep"},"_id":"7t4pq12i6PjQqrp9"}
+{"active":0,"_id":"7t4pq12i6PjQqrp9"}
+{"active":0,"_id":"CPJTacotveSCGGXt"}
+{"type":"rule","active":1,"name":"sleeper","rule_if":{"sensor":"last_motion","comparator":">","value":"10000"},"rule_then":{"command_name":"sleep"},"_id":"FS7tqUUk3hWfkAC9"}
+{"active":0,"_id":"HTDxnraKTL1240zs"}
 {"type":"actuator_command","name":"Off","api_name":"off","actuator":"RqBEVjhGH144Kfsi","signal":"0100000000010101001111000","active":1,"_id":"RVNzi6E5yorRjudS"}
 {"type":"actuator","name":"Lamp","api_name":"lamp","signal_type":"433 MHz","active":1,"_id":"RqBEVjhGH144Kfsi"}
 {"type":"actuator_command","name":"Off","api_name":"off","actuator":"hZTt5lx4ODHDzqzD","signal":"0100000000010101110011000","active":1,"_id":"V3BAt3UWb6WQ9ppc"}
+{"active":0,"_id":"bjMagMHeN7TeXUHc"}
 {"type":"actuator_command","name":"On","api_name":"on","actuator":"dE2s0AFaUbfPljde","signal":"0100000000010111000000110","active":1,"_id":"cCpZqgjZu0576CDW"}
 {"type":"actuator","name":"Fan","api_name":"fan","signal_type":"433 MHz","active":1,"_id":"dE2s0AFaUbfPljde"}
-{"type":"actuator","name":"LED Strip","api_name":"strip","signal_type":"433 MHz","active":1,"_id":"hZTt5lx4ODHDzqzD"}
+{"active":0,"_id":"gF1tUWUnYMeQDQbV"}
+{"type":"actuator","name":"Mood Lights","api_name":"mood","signal_type":"433 MHz","active":1,"_id":"hZTt5lx4ODHDzqzD"}
 {"type":"actuator_command","name":"Off","api_name":"off","actuator":"dE2s0AFaUbfPljde","signal":"0100000000010111000011000","active":1,"_id":"lMpTHZMVGijI0zv7"}
-{"type":"rule","active":1,"name":"Hot in here","rule_if":{"sensor":"temp","comparator":">","value":"72"},"rule_then":{"command_id":"cCpZqgjZu0576CDW","command_name":"Outlet 3 - On"},"_id":"pQTk3pkzwhQoJ1QZ"}
+{"active":0,"_id":"pQTk3pkzwhQoJ1QZ"}
 {"type":"actuator_command","name":"On","api_name":"on","actuator":"hZTt5lx4ODHDzqzD","signal":"0100000000010101110000110","active":1,"_id":"qEYnMZmE9Mn8pTH7"}
-{"type":"rule","active":1,"name":"Chilly ","rule_if":{"sensor":"temp","comparator":"<","value":"73"},"rule_then":{"command_id":"lMpTHZMVGijI0zv7","command_name":"Fan - Off"},"_id":"yC1Nt0ogiscf3cpn"}
+{"active":0,"_id":"un81M9MLI7gI4mRi"}
+{"active":0,"_id":"yC1Nt0ogiscf3cpn"}
 {"type":"actuator_command","name":"On","api_name":"on","actuator":"RqBEVjhGH144Kfsi","signal":"0100000000010101001100110","active":1,"_id":"zckXRpsMtKWvykrC"}
->>>>>>> f60fc1c4eeff92bde06d5c4f267f742b97c01ce2
