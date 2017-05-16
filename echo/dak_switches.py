@@ -18,7 +18,7 @@ import time
 import urllib2
 
 logging.basicConfig(level=logging.DEBUG)
-device_list = {"lamp": 52000, "fan": 52001, "strip": 52002, "wake": 52003, "sleep": 52004, "screens": 52005}
+device_list = {"lamp": 52000, "fan": 52001, "mood": 52002, "wake": 52003, "sleep": 52004, "screens": 52005}
 def open_url(url):
     try:
         return urllib2.urlopen(url)
