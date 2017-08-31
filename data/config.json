@@ -26,3 +26,7 @@
 {"active":0,"_id":"yC1Nt0ogiscf3cpn"}
 {"type":"actuator_command","name":"On","api_name":"on","actuator":"RqBEVjhGH144Kfsi","signal":"0100000000010101001100110","active":1,"_id":"zckXRpsMtKWvykrC"}
 {"type":"actuator_command","name":"blue","api_name":"blue","actuator":"FuiuFTuk4pP7MLj8","signal":"5:0xFFA25D","active":1,"_id":"zlYrYD8Qu5cxPI1P"}
+{"type":"actuator_command","name":"purple","api_name":"purple","actuator":"FuiuFTuk4pP7MLj8","signal":"5:0xFF58A7","active":1,"_id":"Ikm34SRHukudRrjH"}
+{"type":"actuator_command","name":"orange","api_name":"orange","actuator":"FuiuFTuk4pP7MLj8","signal":"5:0xFF0AF5","active":1,"_id":"guxpHEPH88PSHswS"}
+{"type":"actuator_command","name":"cyan","api_name":"cyan","actuator":"FuiuFTuk4pP7MLj8","signal":"5:0xFF8A75","active":1,"_id":"fs94I1KDRzmNaHnA"}
+{"type":"actuator_command","name":"yellow","api_name":"yellow","actuator":"FuiuFTuk4pP7MLj8","signal":"5:0xFF18E7","active":1,"_id":"ujFgkysNjXh4OmMY"}
