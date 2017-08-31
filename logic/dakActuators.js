@@ -38,7 +38,7 @@ dakActuators.addActuator = function(name, signal_type, cb){
     active: 1
   }
   db.config.find({name}, (err, docs) => {
-    if(docs.length == 0){
+    if(docs.length != 0){
       console.log("Non-unique name.") //Show this error to the user.
     }
     else{
